@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="GUIlib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../GUIlib/out/artifacts/GUIlib/GUIlib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../GUIlib/out/artifacts/GUIlib/GUIlib.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot_main.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot_main.iml" group="VkBot" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot_test.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot_test.iml" group="VkBot" />
+    </modules>
+  </component>
+</project>
