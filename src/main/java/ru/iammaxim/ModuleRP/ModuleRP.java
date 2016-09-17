@@ -58,7 +58,6 @@ public class ModuleRP extends ModuleBase {
 
     @Override
     public void process(ObjectMessage msg) {
-        System.out.println(msg.body);
         String[] args = msg.body.split(" ");
         String commandName = args[0];
         args = Arrays.copyOfRange(args, 1, args.length);
