@@ -2,15 +2,9 @@ package ru.iammaxim.VkBot;
 
 import ru.iammaxim.GUIlib.ConsoleWindow;
 import ru.iammaxim.GUIlib.Out;
-import ru.iammaxim.ModuleBase.ModuleBase;
-import ru.iammaxim.ModuleMain.ModuleMain;
-import ru.iammaxim.ModuleRP.ModuleRP;
-import ru.iammaxim.ModuleTalker.ModuleTalker;
 import ru.iammaxim.Tasker.TaskController;
 import ru.iammaxim.VkBot.Groups.Users;
 import ru.iammaxim.VkBot.LocalCommands.CommandRegistry;
-import ru.iammaxim.VkBot.Modules.ModuleLoader;
-import ru.iammaxim.VkBot.Modules.ModuleManager;
 import ru.iammaxim.VkBot.Objects.ObjectUser;
 
 import java.io.File;
@@ -40,11 +34,10 @@ public class Main {
     private ObjectUser botUser;
 
     public void init() {
-        taskController = new TaskController(16);
+        taskController = new TaskController(4);
         setupAccessToken();
         moduleManager = new ModuleManager();
-        loadBuiltinModules();
-        loadModules();
+        moduleManager.loadModules();
         input = new Scanner(System.in);
         localCommandRegistry = new CommandRegistry();
         localCommandRegistry.register();
@@ -97,21 +90,6 @@ public class Main {
         taskController.addTask(task);
     }
 
-    private void loadModules() {
-        File folder = new File("modules");
-        folder.mkdirs();
-        ModuleLoader loader = new ModuleLoader(Main.class.getClassLoader());
-        for (String s : folder.list()) {
-            if (new File("modules/" + s).isDirectory()) continue;
-            System.out.println("Loading module: " + s);
-            try {
-                moduleManager.addModule((ModuleBase) loader.loadClass(s).newInstance());
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public ObjectUser getBotUser() {
         return botUser;
     }
@@ -144,12 +122,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void loadBuiltinModules() {
-        moduleManager.addModule(new ModuleMain());
-        moduleManager.addModule(new ModuleRP());
-        moduleManager.addModule(new ModuleTalker());
     }
 
     public static String getRandomHex() {

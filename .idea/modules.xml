@@ -2,6 +2,21 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JSON.iml" filepath="$PROJECT_DIR$/.idea/modules/JSON.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JSON_main.iml" filepath="$PROJECT_DIR$/.idea/modules/JSON_main.iml" group="JSON" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JSON_test.iml" filepath="$PROJECT_DIR$/.idea/modules/JSON_test.iml" group="JSON" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleChatAdmin.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleChatAdmin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleChatAdmin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleChatAdmin_main.iml" group="ModuleChatAdmin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleChatAdmin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleChatAdmin_test.iml" group="ModuleChatAdmin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain_main.iml" group="ModuleMain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain_test.iml" group="ModuleMain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleRP.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleRP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleRP_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleRP_main.iml" group="ModuleRP" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleRP_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleRP_test.iml" group="ModuleRP" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleTalker.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleTalker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleTalker_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleTalker_main.iml" group="ModuleTalker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleTalker_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleTalker_test.iml" group="ModuleTalker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot_main.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot_main.iml" group="VkBot" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot_test.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot_test.iml" group="VkBot" />

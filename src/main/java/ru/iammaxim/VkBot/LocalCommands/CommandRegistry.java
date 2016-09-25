@@ -17,11 +17,14 @@ public class CommandRegistry {
         registerCommand(new CommandSave());
         registerCommand(new CommandGetUsers());
         registerCommand(new CommandDeleteUser());
-        registerCommand(new CommandGenMessage());
+//        registerCommand(new CommandGenMessage());
         registerCommand(new CommandClear());
         registerCommand(new CommandGC());
         registerCommand(new CommandHelp());
         registerCommand(new CommandRestart());
+        registerCommand(new CommandGetActiveModules());
+        registerCommand(new CommandUnloadModule());
+        registerCommand(new CommandLoadModule());
     }
 
     public void registerCommand(CommandBase command) {

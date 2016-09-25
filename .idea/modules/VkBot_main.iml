@@ -11,5 +11,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="tasker" level="project" />
     <orderEntry type="library" name="GUIlib" level="project" />
+    <orderEntry type="module" module-name="JSON_main" />
   </component>
 </module>

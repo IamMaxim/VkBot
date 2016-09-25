@@ -19,6 +19,18 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="JSON_main" target="1.8" />
+      <module name="JSON_test" target="1.8" />
+      <module name="ModuleBase_main" target="1.8" />
+      <module name="ModuleBase_test" target="1.8" />
+      <module name="ModuleChatAdmin_main" target="1.8" />
+      <module name="ModuleChatAdmin_test" target="1.8" />
+      <module name="ModuleMain_main" target="1.8" />
+      <module name="ModuleMain_test" target="1.8" />
+      <module name="ModuleRP_main" target="1.5" />
+      <module name="ModuleRP_test" target="1.5" />
+      <module name="ModuleTalker_main" target="1.8" />
+      <module name="ModuleTalker_test" target="1.8" />
       <module name="VkBot_main" target="1.8" />
       <module name="VkBot_test" target="1.8" />
     </bytecodeTargetLevel>

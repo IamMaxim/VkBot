@@ -5,15 +5,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import ru.iammaxim.VkBot.Main;
 
-/**
- * Created by Maxim on 20.06.2016.
- */
 public class ObjectMessage {
     public int id, from_id, user_id;
     public String title, body;
     public long date;
     public boolean out;
-    public JSONObject object;
 
     private static final int OUT_FLAG_OFFSET = 1;
 
