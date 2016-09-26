@@ -115,10 +115,9 @@ public class Main {
             return;
         }
         try {
-            InputStream is = new FileInputStream(file);
-            byte[] at = new byte[(int) file.length()];
-            is.read(at);
-            access_token = new String(at);
+            Scanner scanner = new Scanner(file);
+            access_token = scanner.next();
+            scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

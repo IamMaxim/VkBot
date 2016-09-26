@@ -18,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ModuleTalker extends ModuleBase {
     public Node tree = new Node();
     public ConcurrentHashMap<String, Node> data = new ConcurrentHashMap<>();
+    public String botName = "(bot Dasha) ";
 
     public ModuleTalker() {
         try {
@@ -71,7 +72,7 @@ public class ModuleTalker extends ModuleBase {
     @Override
     public void process(ObjectMessage inputMessage) {
         if (inputMessage.body.equals("/gen")) {
-            Messages.send(inputMessage.from_id, "(bot Dasha) " + tree.getSentence(0));
+            Messages.send(inputMessage.from_id, botName + tree.getSentence(0));
         }
     }
 
