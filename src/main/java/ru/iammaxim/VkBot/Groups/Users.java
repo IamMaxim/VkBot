@@ -16,7 +16,7 @@ public class Users {
 
     public static ObjectUser get() {
         try {
-            return new ObjectUser(Net.processRequest(new Request("users", "get", main.getAccessToken())));
+            return new ObjectUser(Net.processRequest("users.get", true));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -27,7 +27,7 @@ public class Users {
         ObjectUser user = UserDB.get(id);
         if (user == null) {
             try {
-                String json = Net.processRequest(new Request("users", "get", main.getAccessToken(), "user_ids", id+""));
+                String json = Net.processRequest("users.get", true, "user_ids="+id);
                 user = new ObjectUser(json);
                 UserDB.add(user);
             } catch (IOException e) {

@@ -15,8 +15,10 @@ public class CommandGetActiveModules extends CommandBase {
 
     @Override
     public void run(String[] args) {
+        StringBuilder sb = new StringBuilder();
         for (ModuleBase module : Main.instance.getModuleManager().getModules()) {
-            System.out.println(module.getName());
+            sb.append('\n' + module.getName());
         }
+        System.out.println(sb.toString());
     }
 }

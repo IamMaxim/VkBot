@@ -27,6 +27,8 @@
       <module name="ModuleChatAdmin_test" target="1.8" />
       <module name="ModuleMain_main" target="1.8" />
       <module name="ModuleMain_test" target="1.8" />
+      <module name="ModuleNNTalker_main" target="1.8" />
+      <module name="ModuleNNTalker_test" target="1.8" />
       <module name="ModuleRP_main" target="1.5" />
       <module name="ModuleRP_test" target="1.5" />
       <module name="ModuleTalker_main" target="1.8" />

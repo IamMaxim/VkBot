@@ -18,18 +18,18 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ModuleTalker extends ModuleBase {
     public Node tree = new Node();
     public ConcurrentHashMap<String, Node> data = new ConcurrentHashMap<>();
-    public String botName = "(bot Dasha) ";
+    public String botName = "(bot Maxim) ";
 
     public ModuleTalker() {
         try {
             loadFromMessages("messages_in.txt");
-            System.out.println("messages loaded.");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public void loadFromMessages(String filename) throws FileNotFoundException {
+        long startTime = System.currentTimeMillis();
         File file = new File(filename);
         if (!file.exists()) return;
         Scanner scanner = new Scanner(file);
@@ -37,8 +37,6 @@ public class ModuleTalker extends ModuleBase {
         while (scanner.hasNext()) {
             String s = scanner.nextLine();
             JSONObject o = new JSONObject(s);
-            int out = o.getInt("out");
-            if (out == 1) continue;
             String body = o.getString("body");
             String[] strings = body.split(" ");
             for (int i = 1; i < strings.length; i++) {
@@ -64,6 +62,7 @@ public class ModuleTalker extends ModuleBase {
             if (node.parent == null)
                 tree.add(node);
         });
+        System.out.println("messages loaded in " + (float)(System.currentTimeMillis() - startTime)/1000 + " seconds. added " + data.size() + " words.");
 
         //unload from memory
         data = null;

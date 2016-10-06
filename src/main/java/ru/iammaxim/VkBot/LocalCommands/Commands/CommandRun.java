@@ -23,12 +23,8 @@ public class CommandRun extends CommandBase {
             return;
         }
 
-        System.out.println(args[0]);
-
         try {
-            System.out.println("\n" + new JSONObject(
-                    Net.processRequest(args[0], true, Arrays.copyOfRange(args, 1, args.length))
-                    ).toString(4));
+            System.out.println("\n" + new JSONObject(Net.processRequest(args[0], true, Arrays.copyOfRange(args, 1, args.length))).toString(4));
         } catch (IOException e) {
             e.printStackTrace();
         }

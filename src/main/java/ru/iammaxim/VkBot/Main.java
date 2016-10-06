@@ -7,10 +7,7 @@ import ru.iammaxim.VkBot.Groups.Users;
 import ru.iammaxim.VkBot.LocalCommands.CommandRegistry;
 import ru.iammaxim.VkBot.Objects.ObjectUser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -21,7 +18,7 @@ public class Main {
     private LongPollThread longPollThread;
     public ConsoleWindow consoleWindow;
     public CommandRegistry localCommandRegistry;
-    public Out logger;
+    public PrintStream logger;
 
     public ModuleManager getModuleManager() {
         return moduleManager;
@@ -73,6 +70,9 @@ public class Main {
         if (!nogui) {
             consoleWindow = ConsoleWindow.create();
             logger = consoleWindow.out;
+        } else {
+            logger = new Logger(System.out);
+            System.setOut(logger);
         }
         init();
         while (needToRun && input.hasNext()) {
@@ -82,7 +82,7 @@ public class Main {
         System.out.println("Shutting down main thread");
     }
 
-    private void processInput(String input) {
+    public void processInput(String input) {
         localCommandRegistry.runCommand(input, false);
     }
 
