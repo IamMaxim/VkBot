@@ -9,4 +9,5 @@ import ru.iammaxim.VkBot.Objects.ObjectMessage;
 public abstract class CommandBase {
     public abstract String getCommandName();
     public abstract void process(ObjectMessage msg, String[] args);
+    public abstract String getHelp();
 }

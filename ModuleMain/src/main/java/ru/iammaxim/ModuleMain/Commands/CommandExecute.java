@@ -32,4 +32,9 @@ public class CommandExecute extends CommandBase {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String getHelp() {
+        return "/exec <command> - executes command in bot console";
+    }
 }

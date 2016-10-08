@@ -1,16 +1,13 @@
 package ru.iammaxim.VkBot.LocalCommands.Commands;
 
 import org.json.JSONObject;
-import org.json.JSONPointer;
-import ru.iammaxim.VkBot.LocalCommands.CommandBase;
-import ru.iammaxim.VkBot.Main;
+import ru.iammaxim.VkBot.LocalCommands.LocalCommandBase;
 import ru.iammaxim.VkBot.Net;
-import ru.iammaxim.VkBot.Request;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class CommandRun extends CommandBase {
+public class CommandRun extends LocalCommandBase {
     @Override
     public String getName() {
         return "run";

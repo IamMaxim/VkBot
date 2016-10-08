@@ -24,4 +24,9 @@ public class ModuleNNTalker extends ModuleBase {
     public String getName() {
         return "nntalker";
     }
+
+    @Override
+    public String getHelp() {
+        return "empty";
+    }
 }

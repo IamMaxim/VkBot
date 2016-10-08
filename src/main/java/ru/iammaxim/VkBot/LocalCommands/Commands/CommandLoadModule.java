@@ -1,6 +1,6 @@
 package ru.iammaxim.VkBot.LocalCommands.Commands;
 
-import ru.iammaxim.VkBot.LocalCommands.CommandBase;
+import ru.iammaxim.VkBot.LocalCommands.LocalCommandBase;
 import ru.iammaxim.VkBot.Main;
 
 import java.io.File;
@@ -8,7 +8,7 @@ import java.io.File;
 /**
  * Created by maxim on 21.09.2016.
  */
-public class CommandLoadModule extends CommandBase {
+public class CommandLoadModule extends LocalCommandBase {
     @Override
     public String getName() {
         return "loadmodule";

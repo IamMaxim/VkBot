@@ -82,4 +82,8 @@ public class ModuleRP extends ModuleBase {
     public String getName() {
         return "rp";
     }
+
+    public String getHelp() {
+        return "*** <text> - success of action<br>/chance <text> - chance of action";
+    }
 }

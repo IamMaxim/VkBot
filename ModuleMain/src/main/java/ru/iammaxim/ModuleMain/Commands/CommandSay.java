@@ -33,4 +33,9 @@ public class CommandSay extends CommandBase {
             Messages.send(msg.from_id, "AH TI SOOQA! POLOMAT' MENYA RESHIL!? " + Main.getRandomHex());
         }
     }
+
+    @Override
+    public String getHelp() {
+        return "/say <message> - sends message to current dialog";
+    }
 }

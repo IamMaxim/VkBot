@@ -16,4 +16,9 @@ public class ModuleChatAdmin extends ModuleBase {
     public String getName() {
         return "chatadmin";
     }
+
+    @Override
+    public String getHelp() {
+        return "empty";
+    }
 }

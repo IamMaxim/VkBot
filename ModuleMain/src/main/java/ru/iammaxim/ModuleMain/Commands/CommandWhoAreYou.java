@@ -19,4 +19,9 @@ public class CommandWhoAreYou extends CommandBase {
         ObjectUser user = Main.instance.getBotUser();
         Messages.send(msg.from_id, "Я " + user.first_name + " " + user.last_name);
     }
+
+    @Override
+    public String getHelp() {
+        return "/whoareyou - returns info about bot account";
+    }
 }

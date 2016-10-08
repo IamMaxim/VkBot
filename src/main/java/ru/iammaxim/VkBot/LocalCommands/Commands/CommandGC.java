@@ -1,11 +1,11 @@
 package ru.iammaxim.VkBot.LocalCommands.Commands;
 
-import ru.iammaxim.VkBot.LocalCommands.CommandBase;
+import ru.iammaxim.VkBot.LocalCommands.LocalCommandBase;
 
 /**
  * Created by maxim on 26.08.2016.
  */
-public class CommandGC extends CommandBase {
+public class CommandGC extends LocalCommandBase {
     @Override
     public String getName() {
         return "gc";

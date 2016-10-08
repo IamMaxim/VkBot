@@ -1,7 +1,7 @@
 package ru.iammaxim.VkBot.LocalCommands.Commands;
 
 import ru.iammaxim.ModuleTalker.ModuleTalker;
-import ru.iammaxim.VkBot.LocalCommands.CommandBase;
+import ru.iammaxim.VkBot.LocalCommands.LocalCommandBase;
 import ru.iammaxim.VkBot.Main;
 
 /**

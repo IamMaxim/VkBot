@@ -1,6 +1,6 @@
 package ru.iammaxim.VkBot.LocalCommands.Commands;
 
-import ru.iammaxim.VkBot.LocalCommands.CommandBase;
+import ru.iammaxim.VkBot.LocalCommands.LocalCommandBase;
 import ru.iammaxim.VkBot.Objects.ObjectUser;
 import ru.iammaxim.VkBot.UserDB;
 
@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Created by maxim on 20.08.2016.
  */
-public class CommandGetUsers extends CommandBase {
+public class CommandGetUsers extends LocalCommandBase {
     @Override
     public String getName() {
         return "getusers";

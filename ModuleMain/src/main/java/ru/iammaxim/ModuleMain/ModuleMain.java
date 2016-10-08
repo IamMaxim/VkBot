@@ -39,6 +39,7 @@ public class ModuleMain extends ModuleBase {
         commands.add(new CommandWhoAreYou());
         commands.add(new CommandGetChats());
         commands.add(new CommandExecute());
+        commands.add(new CommandHelp());
     }
 
     public static String getAccessDeniedText() {
@@ -72,5 +73,12 @@ public class ModuleMain extends ModuleBase {
     @Override
     public String getName() {
         return "main";
+    }
+
+    @Override
+    public String getHelp() {
+        StringBuilder sb = new StringBuilder();
+        commands.forEach(c -> sb.append(c.getHelp()).append("<br>"));
+        return sb.substring(0, sb.length() - 4);
     }
 }

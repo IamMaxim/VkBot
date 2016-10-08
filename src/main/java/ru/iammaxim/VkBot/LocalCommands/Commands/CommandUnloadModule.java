@@ -1,12 +1,12 @@
 package ru.iammaxim.VkBot.LocalCommands.Commands;
 
-import ru.iammaxim.VkBot.LocalCommands.CommandBase;
+import ru.iammaxim.VkBot.LocalCommands.LocalCommandBase;
 import ru.iammaxim.VkBot.Main;
 
 /**
  * Created by maxim on 21.09.2016.
  */
-public class CommandUnloadModule extends CommandBase {
+public class CommandUnloadModule extends LocalCommandBase {
     @Override
     public String getName() {
         return "unloadmodule";

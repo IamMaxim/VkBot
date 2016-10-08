@@ -9,7 +9,7 @@ import java.util.*;
  * Created by Maxim on 20.06.2016.
  */
 public class CommandRegistry {
-    public HashMap<String, CommandBase> commands = new HashMap<>();
+    public HashMap<String, LocalCommandBase> commands = new HashMap<>();
 
     public void register() {
         registerCommand(new CommandRun());
@@ -27,13 +27,13 @@ public class CommandRegistry {
         registerCommand(new CommandLoadModule());
     }
 
-    public void registerCommand(CommandBase command) {
+    public void registerCommand(LocalCommandBase command) {
         commands.put(command.getName(), command);
     }
 
     public void runCommand(String command, boolean forceCurrentThread) {
         String[] args = command.split(" ");
-        CommandBase cmd = commands.get(args[0].toLowerCase());
+        LocalCommandBase cmd = commands.get(args[0].toLowerCase());
         if (cmd != null) {
             if (forceCurrentThread || cmd.runOnProcessThread())
                 cmd.run(Arrays.copyOfRange(args, 1, args.length));

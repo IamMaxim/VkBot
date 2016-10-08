@@ -1,5 +1,7 @@
 package ru.iammaxim.VkBot;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -19,7 +21,10 @@ public class Net {
                 sb.append(scanner.nextLine());
             }
             //too many requests per second, wait 1 sec and repeat
-            if (sb.toString().contains("error_code")) {
+            if (sb.toString().contains("error")) {
+                JSONObject object = new JSONObject(sb.toString()).getJSONObject("error");
+                int error_code = object.getInt("error_code");
+                if (error_code != 6) return "ERROR! CAN'T PERFORM REQUEST! " + sb.toString();
                 do {
                     try {
                         Thread.sleep(1000);

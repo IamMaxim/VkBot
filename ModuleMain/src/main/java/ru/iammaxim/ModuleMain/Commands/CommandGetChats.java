@@ -41,4 +41,9 @@ public class CommandGetChats extends CommandBase {
             Messages.send(msg.from_id, "Error occured during processing your request: " + Main.getRandomHex());
         }
     }
+
+    @Override
+    public String getHelp() {
+        return "/getchats - returns last 10 active chats";
+    }
 }

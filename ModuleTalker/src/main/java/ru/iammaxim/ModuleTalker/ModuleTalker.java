@@ -79,4 +79,9 @@ public class ModuleTalker extends ModuleBase {
     public String getName() {
         return "talker";
     }
+
+    @Override
+    public String getHelp() {
+        return "/gen - generate sentence from word database";
+    }
 }
