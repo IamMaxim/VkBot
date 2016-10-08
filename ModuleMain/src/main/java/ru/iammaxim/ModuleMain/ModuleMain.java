@@ -19,18 +19,20 @@ public class ModuleMain extends ModuleBase {
     private Main main = Main.instance;
     private List<CommandBase> commands = new ArrayList<>();
     private static List<Integer> allowed_to_use = new ArrayList<>();
-    private static final String filepath = "modules/main/say/allowed_to_use.txt";
+    public static final String filepath = "modules/main/allowed_to_use.txt";
 
     public ModuleMain() {
         try {
             File file = new File(filepath);
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNext()) {
-                int i = scanner.nextInt();
-                System.out.println("Added " + i + " to say allowed list");
-                allowed_to_use.add(i);
+            if (file.exists()) {
+                Scanner scanner = new Scanner(file);
+                while (scanner.hasNext()) {
+                    int i = scanner.nextInt();
+                    System.out.println("Added " + i + " to say allowed list");
+                    allowed_to_use.add(i);
+                }
+                scanner.close();
             }
-            scanner = null;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -40,6 +42,18 @@ public class ModuleMain extends ModuleBase {
         commands.add(new CommandGetChats());
         commands.add(new CommandExecute());
         commands.add(new CommandHelp());
+        commands.add(new CommandGetEmoji());
+        commands.add(new CommandAddEmoji());
+        commands.add(new CommandAllowCommands());
+        commands.add(new CommandDenyCommands());
+    }
+
+    public static void denyUser(Integer user_id) {
+        allowed_to_use.remove(user_id);
+    }
+
+    public static void allowUser(int user_id) {
+        allowed_to_use.add(user_id);
     }
 
     public static String getAccessDeniedText() {
