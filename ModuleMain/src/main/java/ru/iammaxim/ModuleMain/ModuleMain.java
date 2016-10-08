@@ -46,10 +46,15 @@ public class ModuleMain extends ModuleBase {
         commands.add(new CommandAddEmoji());
         commands.add(new CommandAllowCommands());
         commands.add(new CommandDenyCommands());
+        commands.add(new CommandGetAllowed());
     }
 
     public static void denyUser(Integer user_id) {
         allowed_to_use.remove(user_id);
+    }
+
+    public static List<Integer> getAllowed() {
+        return allowed_to_use;
     }
 
     public static void allowUser(int user_id) {
