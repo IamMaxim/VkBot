@@ -42,11 +42,12 @@ public class ModuleMain extends ModuleBase {
         commands.add(new CommandGetChats());
         commands.add(new CommandExecute());
         commands.add(new CommandHelp());
-        commands.add(new CommandGetEmoji());
-        commands.add(new CommandAddEmoji());
+//        commands.add(new CommandGetEmoji());
+//        commands.add(new CommandAddEmoji());
         commands.add(new CommandAllowCommands());
         commands.add(new CommandDenyCommands());
         commands.add(new CommandGetAllowed());
+        commands.add(new CommandSearchMusic());
     }
 
     public static void denyUser(Integer user_id) {

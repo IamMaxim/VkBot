@@ -11,6 +11,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain_main.iml" group="ModuleMain" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain_test.iml" group="ModuleMain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMessageSender.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMessageSender.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMessageSender_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMessageSender_main.iml" group="ModuleMessageSender" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMessageSender_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMessageSender_test.iml" group="ModuleMessageSender" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNNTalker.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNNTalker.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNNTalker_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNNTalker_main.iml" group="ModuleNNTalker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNNTalker_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNNTalker_test.iml" group="ModuleNNTalker" />
