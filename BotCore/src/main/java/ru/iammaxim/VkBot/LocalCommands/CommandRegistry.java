@@ -17,7 +17,6 @@ public class CommandRegistry {
         registerCommand(new CommandSave());
         registerCommand(new CommandGetUsers());
         registerCommand(new CommandDeleteUser());
-//        registerCommand(new CommandGenMessage());
         registerCommand(new CommandClear());
         registerCommand(new CommandGC());
         registerCommand(new CommandHelp());
@@ -25,6 +24,8 @@ public class CommandRegistry {
         registerCommand(new CommandGetActiveModules());
         registerCommand(new CommandUnloadModule());
         registerCommand(new CommandLoadModule());
+        registerCommand(new CommandAddAdmin());
+        registerCommand(new CommandRemoveAdmin());
     }
 
     public void registerCommand(LocalCommandBase command) {

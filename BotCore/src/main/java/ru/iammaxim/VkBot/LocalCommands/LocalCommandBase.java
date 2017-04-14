@@ -5,5 +5,5 @@ public abstract class LocalCommandBase {
     public boolean runOnProcessThread() {
         return true;
     }
-    public abstract void run(String[] args);
+    public abstract void run(String... args);
 }

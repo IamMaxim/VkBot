@@ -43,6 +43,7 @@ public class Main {
 
         if (needToRun) {
             UserDB.load();
+            UserManager.load();
             UserDB.startSaveThread();
             longPollThread = new LongPollThread("LongPollThread");
             longPollThread.start();

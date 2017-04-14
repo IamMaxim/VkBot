@@ -61,17 +61,19 @@ public class ModuleRP extends ModuleBase {
         String[] args = msg.body.split(" ");
         String commandName = args[0];
         args = Arrays.copyOfRange(args, 1, args.length);
-        if (commandName.equals("***")) {
+        if (msg.body.startsWith("***")) {
+            String action = msg.body.substring(3).trim();
+            //check for URLs
             if (testURL(msg)) return;
+
             ObjectUser user;
             if (msg.out) user = main.getBotUser();
             else if (msg.title.equals(" ... "))
                 user = Users.get(msg.from_id);
             else
                 user = Users.get(msg.user_id);
-            if (user == null)
-                System.out.println("user == null");
-            Messages.send(msg.from_id, "*" + user.first_name + " " + user.last_name + " " + String.join(" ", args) + "* (" + (Math.random() < 0.5 ? "неудачно" : "удачно") + ")");
+
+            Messages.send(msg.from_id, "*" + user.first_name + " " + user.last_name + " " + action + "* (" + (Math.random() < 0.5 ? "неудачно" : "удачно") + ")");
         } else if (commandName.equals("/chance")) {
             if (testURL(msg)) return;
             Messages.send(msg.from_id, "Шанс того, что " + String.join(" ", args) + ": " + (int) (Math.random() * 100) + "%");
@@ -80,10 +82,11 @@ public class ModuleRP extends ModuleBase {
 
     @Override
     public String getName() {
-        return "rp";
+        return "ModuleRP";
     }
 
     public String getHelp() {
-        return "*** <text> - success of action<br>/chance <text> - chance of action";
+        return "*** <text> - success of action<br>" +
+                "/chance <text> - chance of action";
     }
 }

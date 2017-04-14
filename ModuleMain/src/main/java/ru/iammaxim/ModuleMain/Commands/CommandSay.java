@@ -4,6 +4,7 @@ import ru.iammaxim.ModuleMain.ModuleMain;
 import ru.iammaxim.VkBot.Groups.Messages;
 import ru.iammaxim.VkBot.Main;
 import ru.iammaxim.VkBot.Objects.ObjectMessage;
+import ru.iammaxim.VkBot.UserManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,8 +20,8 @@ public class CommandSay extends CommandBase {
 
     @Override
     public void process(ObjectMessage msg, String[] args) {
-        if (!(ModuleMain.isAllowed(msg.user_id))) {
-            Messages.send(msg.from_id, ModuleMain.getAccessDeniedText());
+        if (!(UserManager.isAdmin(msg.user_id))) {
+            Messages.send(msg.from_id, UserManager.getAccessDeniedText());
             return;
         }
 

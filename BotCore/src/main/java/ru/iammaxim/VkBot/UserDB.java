@@ -14,7 +14,7 @@ import java.util.function.Function;
  * Created by maxim on 18.08.2016.
  */
 public class UserDB {
-    private static final String filepath = "users.dat";
+    private static final String filepath = "save/users.dat";
     private static HashMap<Integer, ObjectUser> userDB = new HashMap<>();
     public static Thread saveThread;
 
@@ -23,7 +23,7 @@ public class UserDB {
             while (!saveThread.isInterrupted()) {
                 try {
                     Thread.sleep(60000);
-                    save();
+                    Main.instance.localCommandRegistry.commands.get("save").run();
                 } catch (InterruptedException e) {
                 }
             }
@@ -51,8 +51,10 @@ public class UserDB {
     public static void save() {
         try {
             File file = new File(filepath);
-            if (!file.exists())
+            if (!file.exists()) {
+                new File(filepath.substring(0, filepath.lastIndexOf("/"))).mkdirs();
                 file.createNewFile();
+            }
             FileOutputStream fos = new FileOutputStream(file);
 
             fos.write(intToBytes(userDB.size()));

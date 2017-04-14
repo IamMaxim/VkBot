@@ -74,9 +74,20 @@ public class ModuleManager {
             scanner.close();
             is.close();
             System.out.println("loading module: " + name);
-            Main.instance.getModuleManager().addModule((ModuleBase) classLoader.loadClass(name).newInstance());
+            ModuleBase module = (ModuleBase) classLoader.loadClass(name).newInstance();
+            module.load("save/" + module.getName() + "/");
+            System.out.println("Loaded " + module.getName() + "'s data");
+            Main.instance.getModuleManager().addModule(module);
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void save() {
+        modules.forEach(m -> {
+            new File("save").mkdirs();
+            m.save("save/" + m.getName() + "/");
+            System.out.println(m.getName() + "'s data saved.");
+        });
     }
 }

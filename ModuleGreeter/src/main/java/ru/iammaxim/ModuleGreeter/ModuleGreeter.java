@@ -56,6 +56,7 @@ public class ModuleGreeter extends ModuleBase {
     }
 
     public String getHelp() {
-        return "This module sends messages to random or specified people";
+        return "/greeterStart - starts greeter<br>" +
+                "/greeterStop - stops greeter";
     }
 }

@@ -6,4 +6,6 @@ public abstract class ModuleBase {
     public abstract void process(ObjectMessage inputMessage);
     public abstract String getName();
     public abstract String getHelp();
+    public void save(String path) {}
+    public void load(String path) {}
 }
