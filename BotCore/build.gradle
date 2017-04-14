@@ -1,0 +1,13 @@
+group 'VkBot'
+version '0.1'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile files('../libs/Tasker.jar')
+    compile files('../libs/GUIlib.jar')
+}

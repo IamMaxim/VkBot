@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="tasker">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../Tasker/out/artifacts/tasker/tasker.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

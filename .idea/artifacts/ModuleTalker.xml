@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="ModuleTalker">
-    <output-path>$PROJECT_DIR$/modules</output-path>
-    <root id="archive" name="ModuleTalker.jar">
-      <element id="module-output" name="ModuleTalker_main" />
-      <element id="file-copy" path="$PROJECT_DIR$/ModuleTalker/info.txt" />
-    </root>
-  </artifact>
-</component>
