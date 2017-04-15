@@ -3,6 +3,8 @@ package ru.iammaxim.ModuleGreeter;
 import ru.iammaxim.VkBot.Groups.Messages;
 import ru.iammaxim.VkBot.ModuleBase.ModuleBase;
 import ru.iammaxim.VkBot.Objects.ObjectMessage;
+import ru.iammaxim.VkBot.UserManager;
+import sun.plugin2.message.Message;
 
 /**
  * Created by maxim on 13.04.2017.
@@ -22,18 +24,26 @@ public class ModuleGreeter extends ModuleBase {
         return messages[index];
     }
 
-    public void process(ObjectMessage inputMessage) {
-        if (inputMessage.from_id == 151657174 || inputMessage.from_id == 122528012)
-            switch (inputMessage.body) {
-                case "greeterStart":
-                    if (workerThread.isAlive()) {
-                        Messages.send(inputMessage.from_id, "This module is already running. Stop it by typing /greeterStop");
+    private boolean checkAdmin(ObjectMessage msg) {
+        if (UserManager.isAdmin(msg.user_id))
+            return true;
+        Messages.send(msg.from_id, UserManager.getAccessDeniedText());
+        return false;
+    }
+
+    public void process(ObjectMessage msg) {
+            switch (msg.body) {
+                case "/greeterStart":
+                    if (!checkAdmin(msg))
+                        return;
+                    if (workerThread != null && workerThread.isAlive()) {
+                        Messages.send(msg.from_id, "This module is already running. Stop it by typing /greeterStop");
                         return;
                     }
                     workerThread = new Thread(() -> {
                         try {
                             while (!Thread.interrupted()) {
-                                Messages.send(122528012, getMessageText());
+                                Messages.send(msg.from_id, getMessageText());
                                 Thread.sleep(10000);
                             }
                         } catch (InterruptedException e) {
@@ -41,13 +51,17 @@ public class ModuleGreeter extends ModuleBase {
                         }
                     });
                     workerThread.start();
+                    Messages.send(msg.from_id, "Greeter started");
                     break;
-                case "greeterStop":
+                case "/greeterStop":
+                    if (!checkAdmin(msg))
+                        return;
                     if (!workerThread.isAlive()) {
-                        Messages.send(inputMessage.from_id, "This module is already stopped. Start it by typing /greeterStart");
+                        Messages.send(msg.from_id, "This module is already stopped. Start it by typing /greeterStart");
                         return;
                     }
                     workerThread.interrupt();
+                    Messages.send(msg.from_id, "Greeter stopped");
             }
     }
 

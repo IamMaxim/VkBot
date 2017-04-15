@@ -2,6 +2,7 @@ package ru.iammaxim.VkBot;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -9,14 +10,24 @@ import java.util.Date;
  */
 public class Logger extends PrintStream {
     private SimpleDateFormat format = new SimpleDateFormat("'['HH:mm:ss dd.MM.yyyy'] '");
-    public String lastString;
+    public ArrayList<String> lastLog = new ArrayList<>(10);
+    private boolean writeLastLog = false;
+
+    public void startLastLogging() {
+        lastLog.clear();
+        writeLastLog = true;
+    }
+
+    public void stopLastLogging() {
+        writeLastLog = false;
+    }
 
     public Logger(OutputStream out) {
         super(out);
     }
 
     private String getString(String s) {
-        return format.format(new Date()) + Thread.currentThread().getStackTrace()[3] + " " + s;
+        return format.format(new Date()) + s;
     }
 
     @Override
@@ -56,8 +67,10 @@ public class Logger extends PrintStream {
 
     @Override
     public void println(String x) {
-        lastString = getString(x);
-        super.println(lastString);
+        String s = getString(x);
+        if (writeLastLog)
+            lastLog.add(s);
+        super.println(s);
     }
 
     @Override

@@ -2,7 +2,9 @@ package ru.iammaxim.ModuleMain.Commands;
 
 import ru.iammaxim.ModuleMain.ModuleMain;
 import ru.iammaxim.VkBot.Groups.Messages;
+import ru.iammaxim.VkBot.Groups.Users;
 import ru.iammaxim.VkBot.Objects.ObjectMessage;
+import ru.iammaxim.VkBot.Objects.ObjectUser;
 import ru.iammaxim.VkBot.UserManager;
 
 import java.io.File;
@@ -26,8 +28,10 @@ public class CommandAddAdmin extends CommandBase {
                 return;
             }
 
-            UserManager.addAdmin(Integer.parseInt(args[0]));
-            Messages.send(msg.from_id, "User " + args[0] + " is now admin");
+            int user_id = Integer.parseInt(args[0]);
+            UserManager.addAdmin(user_id);
+            ObjectUser admin = Users.get(user_id);
+            Messages.send(msg.from_id, "User " + user_id + " (" + admin.first_name + " " + admin.last_name + ") is now admin");
         } catch (NumberFormatException e) {
             Messages.send(msg.from_id, "Invalid user_id. Must be integer number");
         }

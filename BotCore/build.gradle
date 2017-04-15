@@ -9,5 +9,4 @@ repositories {
 
 dependencies {
     compile files('../libs/Tasker.jar')
-    compile files('../libs/GUIlib.jar')
 }

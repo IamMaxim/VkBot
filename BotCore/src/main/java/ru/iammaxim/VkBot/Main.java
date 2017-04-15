@@ -1,6 +1,5 @@
 package ru.iammaxim.VkBot;
 
-import ru.iammaxim.GUIlib.ConsoleWindow;
 import ru.iammaxim.Tasker.TaskController;
 import ru.iammaxim.VkBot.Groups.Users;
 import ru.iammaxim.VkBot.LocalCommands.CommandRegistry;
@@ -8,7 +7,6 @@ import ru.iammaxim.VkBot.Objects.ObjectUser;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -17,9 +15,8 @@ public class Main {
     private volatile boolean needToRun = true;
     private TaskController taskController;
     private LongPollThread longPollThread;
-    public ConsoleWindow consoleWindow;
     public CommandRegistry localCommandRegistry;
-    public PrintStream logger;
+    public Logger logger;
 
     public ModuleManager getModuleManager() {
         return moduleManager;
@@ -65,17 +62,12 @@ public class Main {
         for (String arg : args) {
             if (arg.toLowerCase().equals("-nogui")) nogui = true;
         }
-        instance.run(nogui);
+        instance.run();
     }
 
-    private void run(boolean nogui) {
-        if (!nogui) {
-            consoleWindow = ConsoleWindow.create();
-            logger = consoleWindow.out;
-        } else {
+    private void run() {
             logger = new Logger(System.out);
             System.setOut(logger);
-        }
         init();
         while (needToRun && input.hasNext()) {
             processInput(input.nextLine());

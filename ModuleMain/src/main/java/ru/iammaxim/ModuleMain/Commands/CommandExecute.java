@@ -25,11 +25,12 @@ public class CommandExecute extends CommandBase {
 
             String command = msg.body.substring(6);
             System.out.println("trying to exec " + command);
+            Main.instance.logger.startLastLogging();
             Main.instance.localCommandRegistry.runCommand(command, true);
-            String response = (String) Main.instance.logger.getClass().getField("lastString").get(Main.instance.logger);
-            System.out.println(response);
-            Messages.send(msg.from_id, response.replace("\n", "<br>").replace("    ", ""));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+            String response = String.join("<br>", Main.instance.logger.lastLog);
+            Main.instance.logger.stopLastLogging();
+            Messages.send(msg.from_id, response.replace("\n", "<br>"));
+        } catch (Exception e) {
             Messages.send(msg.from_id, "Failed to execute action");
             e.printStackTrace();
         }

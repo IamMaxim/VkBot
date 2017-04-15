@@ -20,15 +20,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="BotCore_main" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../libs/GUIlib.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
   </component>
   <component name="TestModuleProperties" production-module="ModuleGreeter_main" />
 </module>

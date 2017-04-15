@@ -17,7 +17,6 @@ public class CommandRegistry {
         registerCommand(new CommandSave());
         registerCommand(new CommandGetUsers());
         registerCommand(new CommandDeleteUser());
-        registerCommand(new CommandClear());
         registerCommand(new CommandGC());
         registerCommand(new CommandHelp());
         registerCommand(new CommandRestart());
