@@ -15,7 +15,7 @@ public class LongPollThread extends Thread {
 
     private void init() {
         try {
-            currentLongPollServer = ObjectLongPollServer.getServer(Net.processRequest(new Request("messages", "getLongPollServer", Main.instance.getAccessToken(), "use_ssl", "1", "need_pts", "1")));
+            currentLongPollServer = ObjectLongPollServer.getServer(Net.processRequest("messages.getLongPollServer", true, "use_ssl=1", "need_pts=1"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,8 +44,8 @@ public class LongPollThread extends Thread {
                 int code = o.getInt("failed");
                 if (code == 2 || code == 3) {
                     System.out.println("Detected expired long poll token.");
-                    currentLongPollServer = ObjectLongPollServer.getServer(Net.processRequest(new Request("messages", "getLongPollServer", Main.instance.getAccessToken(), "use_ssl", "1", "need_pts", "1")));
-                    System.out.println("Server data updated.");
+                    currentLongPollServer = ObjectLongPollServer.getServer(Net.processRequest("messages.getLongPollServer", true, "use_ssl=1", "need_pts=1"));
+                    System.out.println("Long poll server data updated.");
                     return;
                 }
             }

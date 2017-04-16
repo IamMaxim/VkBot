@@ -2,32 +2,31 @@
 <project version="4">
   <component name="ArtifactManager">
     <artifact type="jar" build-on-make="true" name="VkBot">
-      <output-path>$PROJECT_DIR$/</output-path>
+      <output-path>$PROJECT_DIR$/run</output-path>
       <root id="archive" name="VkBot.jar">
         <element id="directory" name="META-INF">
           <element id="file-copy" path="$PROJECT_DIR$/BotCore/META-INF/MANIFEST.MF" />
         </element>
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/GUIlib.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/Tasker.jar" path-in-jar="/" />
         <element id="module-output" name="BotCore_main" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="ModuleMain">
-      <output-path>$PROJECT_DIR$/modules</output-path>
+      <output-path>$PROJECT_DIR$/run/modules</output-path>
       <root id="archive" name="ModuleMain.jar">
         <element id="file-copy" path="$PROJECT_DIR$/ModuleMain/info.txt" />
         <element id="module-output" name="ModuleMain_main" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="ModuleGreeter">
-      <output-path>$PROJECT_DIR$/modules</output-path>
+      <output-path>$PROJECT_DIR$/run/modules</output-path>
       <root id="archive" name="ModuleGreeter.jar">
         <element id="file-copy" path="$PROJECT_DIR$/ModuleGreeter/info.txt" />
         <element id="module-output" name="ModuleGreeter_main" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="ModuleRP">
-      <output-path>$PROJECT_DIR$/modules</output-path>
+      <output-path>$PROJECT_DIR$/run/modules</output-path>
       <root id="archive" name="ModuleRP.jar">
         <element id="file-copy" path="$PROJECT_DIR$/ModuleRP/info.txt" />
         <element id="module-output" name="ModuleRP_main" />

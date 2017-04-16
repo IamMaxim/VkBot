@@ -3,10 +3,7 @@ package ru.iammaxim.VkBot;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.SocketException;
-import java.net.URL;
+import java.net.*;
 import java.util.Scanner;
 
 public class Net {
@@ -58,19 +55,10 @@ public class Net {
             sb.append("&access_token=").append(Main.instance.getAccessToken());
         }
         for (String s : keysAndValues) {
-            sb.append("&").append(s.replace(" ", "%20"));
-        }
-        return processRequest(sb.toString());
-    }
-
-    public static String processRequest(Request request) throws IOException {
-        StringBuilder sb = new StringBuilder("https://api.vk.com/method/");
-        sb.append(request.group).append(".").append(request.name).append(version);
-        if (request.accessToken != null) {
-            sb.append("&access_token=").append(request.accessToken);
-        }
-        for (int i = 0; i < request.args.length/2; i++) {
-            sb.append("&").append(request.args[i * 2]).append("=").append(request.args[i * 2 + 1].replace(" ", "%20"));
+            String[] KaV = s.split("=");
+            //KaV[0] MUST not contain disallowed chars according to VK API
+            KaV[1] = URLEncoder.encode(KaV[1], "UTF-8");
+            sb.append("&").append(KaV[0]).append("=").append(KaV[1]);
         }
         return processRequest(sb.toString());
     }

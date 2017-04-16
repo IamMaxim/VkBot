@@ -31,7 +31,6 @@ public class CommandGetChats extends CommandBase {
                 JSONObject obj = ((JSONObject) o).getJSONObject("message");
                 try {
                     String s1 = String.valueOf(obj.getInt("chat_id")) + " " + obj.getString("title") + "<br>";
-                    System.out.println(s1);
                     message.append(s1);
                 } catch (JSONException e) {}
             });
