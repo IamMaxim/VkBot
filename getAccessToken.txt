@@ -1,1 +1,1 @@
-https://oauth.vk.com/authorize?client_id=5129616&display=page&scope=messages,offline,status,wall,notifications,photos,audio,groups&response_type=token&v=5.53
+https://oauth.vk.com/authorize?client_id=5129616&display=page&scope=messages,offline,status,wall,notifications,photos,audio,groups&response_type=token&v=5.63

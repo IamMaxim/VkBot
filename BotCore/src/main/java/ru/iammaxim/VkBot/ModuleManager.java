@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,20 +28,13 @@ public class ModuleManager {
 
     public void removeModule(String name) {
         synchronized (modules) {
-            Iterator<ModuleBase> iterator = modules.iterator();
-            while (iterator.hasNext()) {
-                ModuleBase module = iterator.next();
-                if (module.getName().equals(name))
-                    iterator.remove();
-            }
+            modules.removeIf(module -> module.getName().equals(name));
         }
     }
 
     public void process(ObjectMessage message) {
         synchronized (modules) {
-            modules.forEach((module) -> {
-                module.process(message);
-            });
+            modules.forEach((module) -> module.process(message));
         }
     }
 

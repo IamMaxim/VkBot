@@ -7,7 +7,7 @@ import java.net.*;
 import java.util.Scanner;
 
 public class Net {
-    private static final String version = "?v=5.52";
+    private static final String version = "?v=5.63";
 
     public static String processRequest(String url) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -17,11 +17,20 @@ public class Net {
             while (scanner.hasNext()) {
                 sb.append(scanner.nextLine());
             }
-            //too many requests per second, wait 1 sec and repeat
+            //check for errors
             if (sb.toString().contains("error")) {
-                JSONObject object = new JSONObject(sb.toString()).getJSONObject("error");
+                JSONObject object = new JSONObject(sb.toString());
+
+                //check if returned JSON contains error
+                if (!object.has("error"))
+                    return sb.toString();
+
+                object = object.getJSONObject("error");
                 int error_code = object.getInt("error_code");
+
+                //error_code == 6 is too many requests per second, wait 1 sec and repeat
                 if (error_code != 6) return "ERROR! CAN'T PERFORM REQUEST! " + sb.toString();
+
                 do {
                     try {
                         Thread.sleep(1000);
@@ -43,11 +52,11 @@ public class Net {
                     System.out.println(sb.toString());
                 } while (sb.toString().contains("error_code"));
             }
-        } catch (MalformedURLException e) {};
+        } catch (MalformedURLException e) {}
         return sb.toString();
     }
 
-    //example: messages.getDialogs true count=1, offset=0
+    //example: "messages.getDialogs", true, "count=1", "offset=0"
     public static String processRequest(String groupAndName, boolean useAccessToken, String... keysAndValues) throws IOException {
         StringBuilder sb = new StringBuilder("https://api.vk.com/method/");
         sb.append(groupAndName).append(version);

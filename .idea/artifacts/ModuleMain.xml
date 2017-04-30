@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="ModuleMain">
+    <output-path>$PROJECT_DIR$/run/modules</output-path>
+    <root id="archive" name="ModuleMain.jar">
+      <element id="module-output" name="ModuleMain_main" />
+      <element id="file-copy" path="$PROJECT_DIR$/ModuleMain/info.txt" />
+    </root>
+  </artifact>
+</component>
