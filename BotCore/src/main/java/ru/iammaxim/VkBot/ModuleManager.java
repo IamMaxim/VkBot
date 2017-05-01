@@ -77,7 +77,7 @@ public class ModuleManager {
 
     public void save() {
         modules.forEach(m -> {
-            new File("save").mkdirs();
+            new File("save/" + m.getName()).mkdirs();
             m.save("save/" + m.getName() + "/");
             System.out.println(m.getName() + "'s data saved.");
         });

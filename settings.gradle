@@ -2,3 +2,5 @@ include 'BotCore'
 include 'ModuleMain'
 include 'ModuleGreeter'
 include 'ModuleRP'
+include 'ModuleNotifier'
+

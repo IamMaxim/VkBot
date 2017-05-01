@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/BotCore" />
             <option value="$PROJECT_DIR$/ModuleGreeter" />
             <option value="$PROJECT_DIR$/ModuleMain" />
+            <option value="$PROJECT_DIR$/ModuleNotifier" />
             <option value="$PROJECT_DIR$/ModuleRP" />
           </set>
         </option>
