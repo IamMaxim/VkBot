@@ -3,7 +3,8 @@ package ru.iammaxim.VkBot.LocalCommands;
 import ru.iammaxim.VkBot.LocalCommands.Commands.*;
 import ru.iammaxim.VkBot.Main;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by Maxim on 20.06.2016.
@@ -25,6 +26,7 @@ public class CommandRegistry {
         registerCommand(new CommandLoadModule());
         registerCommand(new CommandAddAdmin());
         registerCommand(new CommandRemoveAdmin());
+        registerCommand(new CommandExec());
     }
 
     public void registerCommand(LocalCommandBase command) {
