@@ -25,17 +25,16 @@ public class CommandRestart extends LocalCommandBase {
             BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String s;
             while ((s = br.readLine()) != null) {
+                if (startCommand != null)
+                    break;
                 String[] arr = s.split(" +");
                 if (arr[7].contains("java")) {
-                    if (startCommand == null) {
-                        startCommand = String.join(" ", Arrays.copyOfRange(arr, 7, arr.length));
-                        if (!startCommand.contains("VkBot.jar"))
-                            startCommand = null;
-                    }
+                    startCommand = String.join(" ", Arrays.copyOfRange(arr, 7, arr.length));
+                    if (!startCommand.contains("VkBot.jar"))
+                        startCommand = null;
                 }
             }
             br.close();
-            process.waitFor();
             process.destroy();
 
             if (startCommand == null) {
@@ -49,7 +48,7 @@ public class CommandRestart extends LocalCommandBase {
             Runtime.getRuntime().exec(startCommand);
             System.out.println("Starting new process successful. Gonna die!");
             Main.instance.addTask(() -> Main.instance.stop());
-        } catch (InterruptedException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace(System.out);
         }
     }
