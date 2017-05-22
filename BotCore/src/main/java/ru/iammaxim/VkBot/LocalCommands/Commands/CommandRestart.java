@@ -51,7 +51,7 @@ public class CommandRestart extends LocalCommandBase {
             System.out.println("Trying to run new bot process");
             Runtime.getRuntime().exec(startCommand);
             System.out.println("Starting new process successful. Gonna die!");
-            Main.instance.stop();
+            Main.instance.addTask(() -> Main.instance.stop());
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
