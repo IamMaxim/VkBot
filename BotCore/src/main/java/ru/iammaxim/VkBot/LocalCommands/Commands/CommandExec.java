@@ -17,17 +17,18 @@ public class CommandExec extends LocalCommandBase {
 
     @Override
     public void run(String... args) {
+        String arg = String.join(" ", args);
         try {
-            String arg = String.join(" ", args);
-            Process p = Runtime.getRuntime().exec(arg);
-            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            Process process = Runtime.getRuntime().exec(arg);
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String s;
             while ((s = br.readLine()) != null)
                 System.out.println(s);
-            p.waitFor();
-            p.destroy();
+            process.waitFor();
+            process.destroy();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            System.out.println("Error occurred while executing command '" + arg + "'");
         }
     }
 }
