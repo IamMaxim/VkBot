@@ -24,6 +24,7 @@ public class CommandExec extends LocalCommandBase {
             String s;
             while ((s = br.readLine()) != null)
                 System.out.println(s);
+            br.close();
             process.waitFor();
             process.destroy();
         } catch (IOException | InterruptedException e) {

@@ -20,7 +20,7 @@ public class ModuleMain extends ModuleBase {
         commands.add(new CommandSay());
         commands.add(new CommandWhoAreYou());
         commands.add(new CommandGetChats());
-        commands.add(new CommandExecute());
+        commands.add(new CommandExec());
         commands.add(new CommandHelp());
 //        commands.add(new CommandGetEmoji());
 //        commands.add(new CommandAddEmoji());

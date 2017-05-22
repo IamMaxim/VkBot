@@ -3,14 +3,14 @@ package ru.iammaxim.VkBot;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by maxim on 14.04.2017.
  */
 public class UserManager {
-    private static ArrayList<Integer> admins = new ArrayList<>();
     public static final String filepath = "save/admins.dat";
+    private static final ArrayList<Integer> admins = new ArrayList<>();
+    public static final Object adminsLock = new Object();
 
     public static void load() {
         try {
@@ -37,8 +37,10 @@ public class UserManager {
             }
 
             try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
-                for (Integer user_id : admins) {
-                    dos.writeInt(user_id);
+                synchronized (adminsLock) {
+                    for (Integer user_id : admins) {
+                        dos.writeInt(user_id);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -60,8 +62,10 @@ public class UserManager {
     }
 
     public static boolean isAdmin(int id) {
-        for (Integer user_id : admins) {
-            if (user_id == id) return true;
+        synchronized (adminsLock) {
+            for (Integer user_id : admins) {
+                if (user_id == id) return true;
+            }
         }
         return false;
     }

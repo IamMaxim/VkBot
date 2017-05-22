@@ -27,12 +27,12 @@ public class LongPollThread extends Thread {
 
     @Override
     public void run() {
-        System.out.println("starting long poll thread...");
+        System.out.println("starting long poll thread");
         init();
         while (!isInterrupted()) {
             processLongPollMessage();
         }
-        System.out.println("Shutting down long poll thread...");
+        System.out.println("Shutting down long poll thread");
     }
 
     private void processLongPollMessage() {

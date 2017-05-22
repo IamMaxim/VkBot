@@ -5,35 +5,49 @@ import ru.iammaxim.VkBot.Groups.Users;
 import ru.iammaxim.VkBot.LocalCommands.CommandRegistry;
 import ru.iammaxim.VkBot.Objects.ObjectUser;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static Main instance;
+    private static Random random = new Random();
+    public CommandRegistry localCommandRegistry;
+    public Logger logger;
     private volatile boolean needToRun = true;
     private TaskController taskController;
     private LongPollThread longPollThread;
-    public CommandRegistry localCommandRegistry;
-    public Logger logger;
+    private ModuleManager moduleManager;
+    private String access_token;
+    private ObjectUser botUser;
+    private Thread mainThread = Thread.currentThread();
+
+    public static void main(String[] args) {
+        Thread.currentThread().setName("MainThread");
+        instance = new Main();
+        boolean nogui = false;
+        for (String arg : args) {
+            if (arg.toLowerCase().equals("-nogui")) nogui = true;
+        }
+        instance.run();
+    }
+
+    public static String getRandomHex() {
+        return Integer.toHexString(random.nextInt());
+    }
 
     public ModuleManager getModuleManager() {
         return moduleManager;
     }
-
-    private ModuleManager moduleManager;
-    private String access_token;
-    private Scanner input;
-    private static Random random = new Random();
-    private ObjectUser botUser;
 
     public void init() {
         taskController = new TaskController(4);
         setupAccessToken();
         moduleManager = new ModuleManager();
         moduleManager.loadModules();
-        input = new Scanner(System.in);
         localCommandRegistry = new CommandRegistry();
         localCommandRegistry.register();
         setBotUser(Users.get());
@@ -55,23 +69,24 @@ public class Main {
         UserDB.saveThread.interrupt();
     }
 
-    public static void main(String[] args) {
-        Thread.currentThread().setName("MainThread");
-        instance = new Main();
-        boolean nogui = false;
-        for (String arg : args) {
-            if (arg.toLowerCase().equals("-nogui")) nogui = true;
-        }
-        instance.run();
-    }
-
     private void run() {
-            logger = new Logger(System.out);
-            System.setOut(logger);
+        logger = new Logger(System.out);
+        System.setOut(logger);
         init();
-        while (needToRun && input.hasNext()) {
-            processInput(input.nextLine());
-        }
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        do {
+            try {
+                while (!br.ready() && needToRun) {
+                    Thread.sleep(1);
+                }
+                processInput(br.readLine());
+            } catch (InterruptedException e) {
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } while (needToRun);
+
         destroy();
         System.out.println("Shutting down main thread");
     }
@@ -95,6 +110,7 @@ public class Main {
 
     public void stopThread() {
         needToRun = false;
+        mainThread.interrupt();
     }
 
     public String getAccessToken() {
@@ -115,9 +131,5 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static String getRandomHex() {
-        return Integer.toHexString(random.nextInt());
     }
 }

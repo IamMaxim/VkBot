@@ -20,14 +20,18 @@ public class UserDB {
 
     public static void startSaveThread() {
         saveThread = new Thread(() -> {
-            while (!saveThread.isInterrupted()) {
+            while (!Thread.interrupted()) {
                 try {
                     Thread.sleep(60000);
+                    if (Thread.interrupted())
+                        return;
                     Main.instance.localCommandRegistry.commands.get("save").run();
                 } catch (InterruptedException e) {
+                    break;
                 }
             }
-        }, "UserDBsaveThread");
+            System.out.println("Shutting down save thread");
+        }, "UserDBSaveThread");
         saveThread.start();
     }
 
