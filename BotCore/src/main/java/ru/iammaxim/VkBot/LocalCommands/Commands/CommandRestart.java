@@ -19,10 +19,6 @@ public class CommandRestart extends LocalCommandBase {
 
     @Override
     public void run(String[] args) {
-        System.out.println();
-        Main.instance.destroy();
-        Main.instance.init();
-
         try {
             String startCommand = null;
             Process process = Runtime.getRuntime().exec("ps -ef");
@@ -41,6 +37,8 @@ public class CommandRestart extends LocalCommandBase {
 
             if (startCommand == null) {
                 System.out.println("Error reading process info. Cancelling core restart");
+                Main.instance.destroy();
+                Main.instance.init();
                 return;
             }
 
