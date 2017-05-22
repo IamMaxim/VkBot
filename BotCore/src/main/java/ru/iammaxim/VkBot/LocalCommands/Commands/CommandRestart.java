@@ -34,6 +34,9 @@ public class CommandRestart extends LocalCommandBase {
                     }
                 }
             }
+            br.close();
+            process.waitFor();
+            process.destroy();
 
             if (startCommand == null) {
                 System.out.println("Error reading process info. Cancelling core restart");
@@ -42,11 +45,7 @@ public class CommandRestart extends LocalCommandBase {
                 return;
             }
 
-            br.close();
-            process.waitFor();
-            process.destroy();
             startCommand = startCommand.substring(startCommand.indexOf("java"));
-            System.out.println("Trying to run new bot process");
             Runtime.getRuntime().exec(startCommand);
             System.out.println("Starting new process successful. Gonna die!");
             Main.instance.addTask(() -> Main.instance.stop());
