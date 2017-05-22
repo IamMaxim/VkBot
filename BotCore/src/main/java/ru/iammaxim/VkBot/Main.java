@@ -62,11 +62,11 @@ public class Main {
     }
 
     public void destroy() {
-        taskController.stop();
-        System.out.println("Shutting down task controller");
         longPollThread.interrupt();
         UserDB.save();
         UserDB.saveThread.interrupt();
+        taskController.stop();
+        System.out.println("Shutting down task controller");
     }
 
     private void run() {
