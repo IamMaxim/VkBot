@@ -48,7 +48,7 @@ public class CommandRestart extends LocalCommandBase {
             process.waitFor();
             process.destroy();
             startCommand = startCommand.substring(startCommand.indexOf("java"));
-            System.out.println("Trying to run '" + startCommand + "'");
+            System.out.println("Trying to run new bot process");
             Runtime.getRuntime().exec(startCommand);
             System.out.println("Starting new process successful. Gonna die!");
             Main.instance.stop();
