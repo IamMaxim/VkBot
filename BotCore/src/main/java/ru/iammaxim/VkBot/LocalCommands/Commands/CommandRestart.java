@@ -53,7 +53,7 @@ public class CommandRestart extends LocalCommandBase {
             System.out.println("Starting new process successful. Gonna die!");
             Main.instance.addTask(() -> Main.instance.stop());
         } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
 }
