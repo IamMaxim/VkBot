@@ -50,8 +50,8 @@ public class CommandRestart extends LocalCommandBase {
             startCommand = startCommand.substring(startCommand.indexOf("java"));
             System.out.println("Trying to run '" + startCommand + "'");
             Runtime.getRuntime().exec(startCommand);
-            System.out.println("Starting new process successful. Gonna die right now!");
-            Runtime.getRuntime().exit(0);
+            System.out.println("Starting new process successful. Gonna die!");
+            Main.instance.stop();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }

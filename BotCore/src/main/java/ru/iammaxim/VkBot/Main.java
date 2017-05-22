@@ -108,7 +108,7 @@ public class Main {
         System.out.println("botUser set to " + user.first_name + " " + user.last_name);
     }
 
-    public void stopThread() {
+    public void stop() {
         needToRun = false;
         mainThread.interrupt();
     }

@@ -19,6 +19,6 @@ public class CommandStop extends LocalCommandBase {
 
     @Override
     public void run(String[] args) {
-        Main.instance.stopThread();
+        Main.instance.stop();
     }
 }
