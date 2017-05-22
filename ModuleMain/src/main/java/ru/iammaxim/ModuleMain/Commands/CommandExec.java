@@ -29,9 +29,9 @@ public class CommandExec extends CommandBase {
             String response = String.join("<br>", Main.instance.logger.lastLog);
             Main.instance.logger.stopLastLogging();
             if (!response.isEmpty())
-                Messages.send(msg.from_id, response.replace("\n", "<br>"));
+                Messages.sendFromCurrentThread(msg.from_id, response.replace("\n", "<br>"));
             else
-                Messages.send(msg.from_id, "Run successful");
+                Messages.sendFromCurrentThread(msg.from_id, "Run successful");
         } catch (Exception e) {
             Messages.send(msg.from_id, "Failed to execute action");
             e.printStackTrace();

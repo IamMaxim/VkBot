@@ -22,6 +22,15 @@ public class Messages {
         });
     }
 
+    public static void sendFromCurrentThread(int id, String message) {
+        try {
+            Net.processRequest("messages.send", true, "peer_id=" + id, "message=" + message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static ObjectMessage getById(int id) throws IOException {
         JSONObject o = new JSONObject(Net.processRequest("messages.getById", true, "message_ids=" + id))
                 .getJSONObject("response").getJSONArray("items").getJSONObject(0);
