@@ -1,5 +1,6 @@
 package ru.iammaxim.VkBot.Objects;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ObjectLongPollServer {
@@ -18,7 +19,19 @@ public class ObjectLongPollServer {
     }
 
     public static ObjectLongPollServer getServer(String JSON) {
-        return new ObjectLongPollServer(JSON);
+        ObjectLongPollServer server = null;
+        while (server == null) {
+            try {
+                server = new ObjectLongPollServer(JSON);
+            } catch (JSONException e) {}
+            if (server == null)
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        }
+        return server;
     }
 
     public void update(long ts) {
