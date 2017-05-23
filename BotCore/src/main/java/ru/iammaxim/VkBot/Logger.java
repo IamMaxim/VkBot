@@ -9,9 +9,24 @@ import java.util.Date;
  * Created by maxim on 19.08.2016.
  */
 public class Logger extends PrintStream {
-    private SimpleDateFormat format = new SimpleDateFormat("'['HH:mm:ss dd.MM.yyyy'] '");
     public ArrayList<String> lastLog = new ArrayList<>(10);
+    private SimpleDateFormat format = new SimpleDateFormat("'['HH:mm:ss dd.MM.yyyy'] '");
     private boolean writeLastLog = false;
+    private FileOutputStream fos;
+
+    public Logger(OutputStream out, String filename) {
+        this(out);
+        try {
+            File f = Utils.getFile(filename);
+            fos = new FileOutputStream(f, true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Logger(OutputStream out) {
+        super(out);
+    }
 
     public void startLastLogging() {
         lastLog.clear();
@@ -20,10 +35,6 @@ public class Logger extends PrintStream {
 
     public void stopLastLogging() {
         writeLastLog = false;
-    }
-
-    public Logger(OutputStream out) {
-        super(out);
     }
 
     private String getString(String s) {
@@ -70,6 +81,12 @@ public class Logger extends PrintStream {
         String s = getString(x);
         if (writeLastLog)
             lastLog.add(s);
+        if (fos != null)
+            try {
+                fos.write((s + '\n').getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         super.println(s);
     }
 

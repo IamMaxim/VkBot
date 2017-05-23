@@ -16,7 +16,7 @@ public class Main {
     public static Main instance;
     private static Random random = new Random();
     public CommandRegistry localCommandRegistry;
-    public Logger logger;
+    public Logger logger, errLogger;
     private volatile boolean needToRun = true;
     private TaskController taskController;
     private LongPollThread longPollThread;
@@ -66,12 +66,16 @@ public class Main {
         UserDB.save();
         UserDB.saveThread.interrupt();
         taskController.stop();
+        logger.close();
+        errLogger.close();
         System.out.println("Shutting down task controller");
     }
 
     private void run() {
-        logger = new Logger(System.out);
+        logger = new Logger(System.out, "out.log");
+        errLogger = new Logger(System.err, "err.log");
         System.setOut(logger);
+        System.setErr(errLogger);
         init();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
