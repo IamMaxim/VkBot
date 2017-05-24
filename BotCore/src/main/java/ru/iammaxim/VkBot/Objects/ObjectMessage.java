@@ -13,7 +13,7 @@ public class ObjectMessage {
 
     private static final int OUT_FLAG_OFFSET = 1;
 
-    public ObjectMessage() {};
+    public ObjectMessage() {}
 
     public ObjectMessage(JSONObject object) {
         id = object.getInt("id");

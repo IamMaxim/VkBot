@@ -41,6 +41,6 @@ public class CommandRegistry {
                 cmd.run(Arrays.copyOfRange(args, 1, args.length));
             else
                 Main.instance.addTask(() -> cmd.run(Arrays.copyOfRange(args, 1, args.length)));
-        } else System.out.println("command not found");
+        } else System.out.println("Command not found");
     }
 }

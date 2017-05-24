@@ -14,7 +14,7 @@ public class CommandHelp extends LocalCommandBase {
 
     @Override
     public void run(String[] args) {
-        StringBuilder s = new StringBuilder("Avaible commands:");
+        StringBuilder s = new StringBuilder("Available commands:");
         Main.instance.localCommandRegistry.commands.entrySet().forEach(c -> {
             s.append('\n').append(c.getKey());
         });

@@ -17,7 +17,7 @@ public class CommandGetUsers extends LocalCommandBase {
 
     @Override
     public void run(String[] args) {
-        StringBuilder sb = new StringBuilder('\n');
+        StringBuilder sb = new StringBuilder("\\n");
         Collection<ObjectUser> users = UserDB.getUsers();
         users.forEach(user -> {
             sb.append('\n').append(user.id).append(' ').append(user.first_name).append(' ').append(user.last_name);
