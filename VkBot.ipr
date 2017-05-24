@@ -18,13 +18,6 @@
         <element id="module-output" name="ModuleMain_main" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="ModuleGreeter">
-      <output-path>$PROJECT_DIR$/run/modules</output-path>
-      <root id="archive" name="ModuleGreeter.jar">
-        <element id="file-copy" path="$PROJECT_DIR$/ModuleGreeter/info.txt" />
-        <element id="module-output" name="ModuleGreeter_main" />
-      </root>
-    </artifact>
     <artifact type="jar" build-on-make="true" name="ModuleRP">
       <output-path>$PROJECT_DIR$/run/modules</output-path>
       <root id="archive" name="ModuleRP.jar">

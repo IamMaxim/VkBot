@@ -28,6 +28,7 @@ public class ModuleMain extends ModuleBase {
         commands.add(new CommandRemoveAdmin());
         commands.add(new CommandGetAdmins());
         commands.add(new CommandSearchMusic());
+        commands.add(new CommandSendTestPhoto());
     }
 
     @Override
