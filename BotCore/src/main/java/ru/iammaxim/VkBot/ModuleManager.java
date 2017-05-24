@@ -33,6 +33,11 @@ public class ModuleManager {
     }
 
     public void process(ObjectMessage message) {
+        try {
+            Net.processRequest("messages.markAsRead", true, "message_ids=" + message.id, "peer_id=" + message.from_id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         synchronized (modules) {
             modules.forEach((module) -> module.process(message));
         }
