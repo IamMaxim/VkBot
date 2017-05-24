@@ -28,10 +28,6 @@ public class Main {
     public static void main(String[] args) {
         Thread.currentThread().setName("MainThread");
         instance = new Main();
-        boolean nogui = false;
-        for (String arg : args) {
-            if (arg.toLowerCase().equals("-nogui")) nogui = true;
-        }
         instance.run();
     }
 
