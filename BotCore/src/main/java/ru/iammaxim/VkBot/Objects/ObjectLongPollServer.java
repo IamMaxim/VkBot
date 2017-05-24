@@ -6,16 +6,12 @@ import org.json.JSONObject;
 public class ObjectLongPollServer {
     public String key, server;
     public long ts;
-    //public int pts;
-//    public Request request;
 
     public ObjectLongPollServer(String json) {
         JSONObject o = new JSONObject(json).getJSONObject("response");
         key = o.getString("key");
         server = o.getString("server");
         ts = o.getLong("ts");
-        //pts = o.getInt("pts");
-        //request = new Request("messages", "getLongPollHistory", Main.instance.getAccessToken(), "ts", ts+"", "pts", pts+"");
     }
 
     public static ObjectLongPollServer getServer(String JSON) {
@@ -23,7 +19,9 @@ public class ObjectLongPollServer {
         while (server == null) {
             try {
                 server = new ObjectLongPollServer(JSON);
-            } catch (JSONException e) {}
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             if (server == null)
                 try {
                     Thread.sleep(1000);

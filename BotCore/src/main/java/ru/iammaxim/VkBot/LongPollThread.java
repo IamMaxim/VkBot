@@ -13,16 +13,16 @@ import java.io.IOException;
 public class LongPollThread extends Thread {
     private ObjectLongPollServer currentLongPollServer;
 
+    public LongPollThread(String name) {
+        super(name);
+    }
+
     private void init() {
         try {
             currentLongPollServer = ObjectLongPollServer.getServer(Net.processRequest("messages.getLongPollServer", true, "use_ssl=1", "need_pts=1"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public LongPollThread(String name) {
-        super(name);
     }
 
     @Override
@@ -44,7 +44,13 @@ public class LongPollThread extends Thread {
                 int code = o.getInt("failed");
                 if (code == 2 || code == 3) {
                     System.out.println("Detected expired long poll token.");
-                    currentLongPollServer = ObjectLongPollServer.getServer(Net.processRequest("messages.getLongPollServer", true, "use_ssl=1", "need_pts=1"));
+                    currentLongPollServer = null;
+                    while (currentLongPollServer == null)
+                        try {
+                            currentLongPollServer = ObjectLongPollServer.getServer(Net.processRequest("messages.getLongPollServer", true, "use_ssl=1", "need_pts=1"));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     System.out.println("Long poll server data updated.");
                     return;
                 }
