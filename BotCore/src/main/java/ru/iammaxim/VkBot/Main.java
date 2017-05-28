@@ -40,8 +40,8 @@ public class Main {
     }
 
     public void init() {
-        taskController = new TaskController(4);
         setupAccessToken();
+        taskController = new TaskController(4);
         moduleManager = new ModuleManager();
         moduleManager.loadModules();
         localCommandRegistry = new CommandRegistry();
@@ -120,9 +120,8 @@ public class Main {
     public void setupAccessToken() {
         File file = new File("access_token.txt");
         if (!file.exists()) {
-            System.out.println("ERROR! Access token not found!");
             needToRun = false;
-            return;
+            throw new RuntimeException("ERROR! Access token not found!");
         }
         try {
             Scanner scanner = new Scanner(file);

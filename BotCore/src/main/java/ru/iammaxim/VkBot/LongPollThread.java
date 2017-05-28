@@ -1,6 +1,7 @@
 package ru.iammaxim.VkBot;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import ru.iammaxim.VkBot.Objects.ObjectLongPollServer;
 import ru.iammaxim.VkBot.Objects.ObjectMessage;
@@ -67,7 +68,7 @@ public class LongPollThread extends Thread {
                 }
             });
             currentLongPollServer.update(ts);
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
             try {
                 Thread.sleep(1);

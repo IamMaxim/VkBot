@@ -9,7 +9,7 @@ public class ObjectMessage {
     public int id, from_id, user_id;
     public String title, body;
     public long date;
-    public boolean out;
+    public boolean out, inChat;
 
     private static final int OUT_FLAG_OFFSET = 1;
 
@@ -27,6 +27,7 @@ public class ObjectMessage {
         } catch (JSONException e) {}
         date = object.getLong("date");
         out = object.getInt("out") == 1;
+        inChat = object.has("chat_id");
     }
 
     public ObjectMessage(String json) {

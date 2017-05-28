@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ru.iammaxim.VkBot.Groups.Messages;
+import ru.iammaxim.VkBot.Groups.Users;
 import ru.iammaxim.VkBot.Main;
 import ru.iammaxim.VkBot.Net;
 import ru.iammaxim.VkBot.Objects.ObjectMessage;

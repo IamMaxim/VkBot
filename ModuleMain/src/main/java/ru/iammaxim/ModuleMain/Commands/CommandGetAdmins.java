@@ -19,6 +19,11 @@ public class CommandGetAdmins extends CommandBase {
 
     @Override
     public void process(ObjectMessage msg, String[] args) {
+        String botName = "bot";
+
+        if (msg.inChat && !msg.body.startsWith(botName))
+            return;
+
         StringBuilder sb = new StringBuilder();
         UserManager.getAdmins().forEach(i -> {
             ObjectUser user = Users.get(i);

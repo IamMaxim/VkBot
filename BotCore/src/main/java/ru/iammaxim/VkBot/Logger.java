@@ -87,7 +87,6 @@ public class Logger extends PrintStream {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        super.println(s);
     }
 
     @Override

@@ -9,11 +9,15 @@ public class ObjectUser {
     public int id;
     public String first_name, last_name;
 
-    public ObjectUser() {}
+    public ObjectUser() {
+    }
 
     //load from users.get()
     public ObjectUser(String json) {
-        JSONObject o = new JSONObject(json).getJSONArray("response").getJSONObject(0);
+        this(new JSONObject(json).getJSONArray("response").getJSONObject(0));
+    }
+
+    public ObjectUser(JSONObject o) {
         id = o.getInt("id");
         first_name = o.getString("first_name");
         last_name = o.getString("last_name");
