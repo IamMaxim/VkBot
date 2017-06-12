@@ -2,8 +2,8 @@
   <artifact type="jar" build-on-make="true" name="ModuleMonitor">
     <output-path>$PROJECT_DIR$/run/modules</output-path>
     <root id="archive" name="ModuleMonitor.jar">
-      <element id="module-output" name="ModuleMonitor" />
       <element id="file-copy" path="$PROJECT_DIR$/ModuleMonitor/info.txt" />
+      <element id="module-output" name="ModuleMonitor_main" />
     </root>
   </artifact>
 </component>
