@@ -3,4 +3,5 @@ include 'ModuleMain'
 include 'ModuleGreeter'
 include 'ModuleRP'
 include 'ModuleNotifier'
+include 'ModuleMonitor'
 

@@ -131,4 +131,8 @@ public class Main {
             e.printStackTrace();
         }
     }
+
+    public boolean needToRun() {
+        return needToRun;
+    }
 }

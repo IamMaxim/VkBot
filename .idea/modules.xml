@@ -11,6 +11,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain.iml" group="ModuleMain" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain_main.iml" group="ModuleMain" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain_test.iml" group="ModuleMain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMonitor.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMonitor.iml" group="ModuleMonitor" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor_main.iml" group="ModuleMonitor" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor_test.iml" group="ModuleMonitor" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNotifier.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNotifier.iml" group="ModuleNotifier" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier_main.iml" group="ModuleNotifier" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier_test.iml" group="ModuleNotifier" />

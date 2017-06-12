@@ -22,4 +22,9 @@ public class ObjectUser {
         first_name = o.getString("first_name");
         last_name = o.getString("last_name");
     }
+
+    @Override
+    public String toString() {
+        return first_name + " " + last_name;
+    }
 }

@@ -6,7 +6,6 @@ import ru.iammaxim.VkBot.Groups.Users;
 import ru.iammaxim.VkBot.Objects.ObjectMessage;
 import ru.iammaxim.VkBot.Objects.ObjectUser;
 import ru.iammaxim.VkBot.UserManager;
-import sun.plugin2.message.Message;
 
 import java.io.File;
 import java.io.FileOutputStream;

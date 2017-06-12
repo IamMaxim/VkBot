@@ -4,7 +4,6 @@ import ru.iammaxim.VkBot.Groups.Messages;
 import ru.iammaxim.VkBot.ModuleBase.ModuleBase;
 import ru.iammaxim.VkBot.Objects.ObjectMessage;
 import ru.iammaxim.VkBot.UserManager;
-import sun.plugin2.message.Message;
 
 /**
  * Created by maxim on 13.04.2017.

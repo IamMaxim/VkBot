@@ -8,6 +8,8 @@
       <module name="ModuleGreeter_test" target="1.8" />
       <module name="ModuleMain_main" target="1.8" />
       <module name="ModuleMain_test" target="1.8" />
+      <module name="ModuleMonitor_main" target="1.8" />
+      <module name="ModuleMonitor_test" target="1.8" />
       <module name="ModuleNotifier_main" target="1.8" />
       <module name="ModuleNotifier_test" target="1.8" />
       <module name="ModuleRP_main" target="1.8" />
