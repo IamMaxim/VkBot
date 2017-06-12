@@ -109,16 +109,20 @@ public class ModuleMonitor extends ModuleBase {
         }).start();
     }
 
+    private boolean checkAdmin(int id) {
+        if (!UserManager.isAdmin(id)) {
+            Messages.send(id, UserManager.getAccessDeniedText());
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void process(ObjectMessage inputMessage) {
-        if (!UserManager.isAdmin(inputMessage.user_id)) {
-            Messages.send(inputMessage.from_id, UserManager.getAccessDeniedText());
-            return;
-        }
-
         String[] command = inputMessage.body.split(" ");
 
         if (command[0].equals("/monitorAdd")) {
+            checkAdmin(inputMessage.user_id);
             if (command.length != 2) {
                 Messages.send(inputMessage.from_id, "Invalid syntax");
                 return;
@@ -131,6 +135,7 @@ public class ModuleMonitor extends ModuleBase {
                 Messages.send(inputMessage.from_id, "Invalid user ID");
             }
         } else if (command[0].equals("/monitorRemove")) {
+            checkAdmin(inputMessage.user_id);
             if (command.length != 2) {
                 Messages.send(inputMessage.from_id, "Invalid syntax");
                 return;
@@ -143,13 +148,16 @@ public class ModuleMonitor extends ModuleBase {
                 Messages.send(inputMessage.from_id, "Invalid user ID");
             }
         } else if (command[0].equals("/monitorList")) {
+            checkAdmin(inputMessage.user_id);
             StringBuilder sb = new StringBuilder();
             usersData.forEach(data -> sb.append(data.id).append(" (").append(Users.get(data.id)).append(")<br>"));
             Messages.send(inputMessage.from_id, sb.toString());
         } else if (command[0].equals("/monitorSubscribe")) {
+            checkAdmin(inputMessage.user_id);
             subsribers.add(inputMessage.from_id);
             Messages.send(inputMessage.from_id, "Subscribed successfully");
         } else if (command[0].equals("/monitorUnsubscribe")) {
+            checkAdmin(inputMessage.user_id);
             subsribers.removeIf(sub -> sub == inputMessage.from_id);
             Messages.send(inputMessage.from_id, "Unsubscribed successfully");
         }
