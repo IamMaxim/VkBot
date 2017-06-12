@@ -57,33 +57,34 @@ public class ModuleMonitor extends ModuleBase {
     @Override
     public void load(String path) {
         File f = new File(path);
-        for (File file : f.listFiles()) {
-            if (file.getName().endsWith(".bin"))
-                try {
-                    Integer id = Integer.valueOf(file.getName().replace(".bin", ""));
-                    UserData d = new UserData(id);
-                    try (FileInputStream fis = new FileInputStream(file)) {
-                        d.loadFrom(fis);
-                    } catch (IOException e) {
+        if (f.exists()) {
+            for (File file : f.listFiles()) {
+                if (file.getName().endsWith(".bin"))
+                    try {
+                        Integer id = Integer.valueOf(file.getName().replace(".bin", ""));
+                        UserData d = new UserData(id);
+                        try (FileInputStream fis = new FileInputStream(file)) {
+                            d.loadFrom(fis);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        usersData.add(d);
+                    } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
-                    usersData.add(d);
-                } catch (NumberFormatException e) {
+            }
+
+            File f1 = new File(path, "subscribers.list");
+            if (f1.exists()) {
+                try (FileInputStream fis = new FileInputStream(f1);
+                     DataInputStream dis = new DataInputStream(fis)) {
+                    int count = dis.readInt();
+                    for (int i = 0; i < count; i++) {
+                        subsribers.add(dis.readInt());
+                    }
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-        }
-
-
-        File f1 = new File(path, "subscribers.list");
-        if (f1.exists()) {
-            try (FileInputStream fis = new FileInputStream(f1);
-                 DataInputStream dis = new DataInputStream(fis)) {
-                int count = dis.readInt();
-                for (int i = 0; i < count; i++) {
-                    subsribers.add(dis.readInt());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
 
