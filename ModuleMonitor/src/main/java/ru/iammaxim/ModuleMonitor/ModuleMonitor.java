@@ -11,7 +11,6 @@ import ru.iammaxim.VkBot.UserManager;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by maxim on 6/12/17.
@@ -105,6 +104,7 @@ public class ModuleMonitor extends ModuleBase {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                subsribers.forEach(s -> Messages.send(s, "Monitor update completed"));
             }
         }).start();
     }
@@ -121,45 +121,51 @@ public class ModuleMonitor extends ModuleBase {
     public void process(ObjectMessage inputMessage) {
         String[] command = inputMessage.body.split(" ");
 
-        if (command[0].equals("/monitorAdd")) {
-            checkAdmin(inputMessage.user_id);
-            if (command.length != 2) {
-                Messages.send(inputMessage.from_id, "Invalid syntax");
-                return;
-            }
-            try {
-                int id = Integer.parseInt(command[1]);
-                usersData.add(new UserData(id));
-                Messages.send(inputMessage.from_id, "User " + id + " (" + Users.get(id) + ") added to monitor");
-            } catch (NumberFormatException e) {
-                Messages.send(inputMessage.from_id, "Invalid user ID");
-            }
-        } else if (command[0].equals("/monitorRemove")) {
-            checkAdmin(inputMessage.user_id);
-            if (command.length != 2) {
-                Messages.send(inputMessage.from_id, "Invalid syntax");
-                return;
-            }
-            try {
-                int id = Integer.parseInt(command[1]);
-                usersData.removeIf(data -> data.id == id);
-                Messages.send(inputMessage.from_id, "User " + id + " (" + Users.get(id) + ") removed from monitor");
-            } catch (NumberFormatException e) {
-                Messages.send(inputMessage.from_id, "Invalid user ID");
-            }
-        } else if (command[0].equals("/monitorList")) {
-            checkAdmin(inputMessage.user_id);
-            StringBuilder sb = new StringBuilder();
-            usersData.forEach(data -> sb.append(data.id).append(" (").append(Users.get(data.id)).append(")<br>"));
-            Messages.send(inputMessage.from_id, sb.toString());
-        } else if (command[0].equals("/monitorSubscribe")) {
-            checkAdmin(inputMessage.user_id);
-            subsribers.add(inputMessage.from_id);
-            Messages.send(inputMessage.from_id, "Subscribed successfully");
-        } else if (command[0].equals("/monitorUnsubscribe")) {
-            checkAdmin(inputMessage.user_id);
-            subsribers.removeIf(sub -> sub == inputMessage.from_id);
-            Messages.send(inputMessage.from_id, "Unsubscribed successfully");
+        switch (command[0]) {
+            case "/monitorAdd":
+                checkAdmin(inputMessage.user_id);
+                if (command.length != 2) {
+                    Messages.send(inputMessage.from_id, "Invalid syntax");
+                    return;
+                }
+                try {
+                    int id = Integer.parseInt(command[1]);
+                    usersData.add(new UserData(id));
+                    Messages.send(inputMessage.from_id, "User " + id + " (" + Users.get(id) + ") added to monitor");
+                } catch (NumberFormatException e) {
+                    Messages.send(inputMessage.from_id, "Invalid user ID");
+                }
+                break;
+            case "/monitorRemove":
+                checkAdmin(inputMessage.user_id);
+                if (command.length != 2) {
+                    Messages.send(inputMessage.from_id, "Invalid syntax");
+                    return;
+                }
+                try {
+                    int id = Integer.parseInt(command[1]);
+                    usersData.removeIf(data -> data.id == id);
+                    Messages.send(inputMessage.from_id, "User " + id + " (" + Users.get(id) + ") removed from monitor");
+                } catch (NumberFormatException e) {
+                    Messages.send(inputMessage.from_id, "Invalid user ID");
+                }
+                break;
+            case "/monitorList":
+                checkAdmin(inputMessage.user_id);
+                StringBuilder sb = new StringBuilder();
+                usersData.forEach(data -> sb.append(data.id).append(" (").append(Users.get(data.id)).append(")<br>"));
+                Messages.send(inputMessage.from_id, sb.toString());
+                break;
+            case "/monitorSubscribe":
+                checkAdmin(inputMessage.user_id);
+                subsribers.add(inputMessage.from_id);
+                Messages.send(inputMessage.from_id, "Subscribed successfully");
+                break;
+            case "/monitorUnsubscribe":
+                checkAdmin(inputMessage.user_id);
+                subsribers.removeIf(sub -> sub == inputMessage.from_id);
+                Messages.send(inputMessage.from_id, "Unsubscribed successfully");
+                break;
         }
     }
 

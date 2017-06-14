@@ -21,7 +21,7 @@ public class Main {
     private TaskController taskController;
     private LongPollThread longPollThread;
     private ModuleManager moduleManager;
-    private String access_token;
+    private AccessTokenManager accessTokenManager;
     private ObjectUser botUser;
     private Thread mainThread = Thread.currentThread();
 
@@ -40,7 +40,8 @@ public class Main {
     }
 
     public void init() {
-        setupAccessToken();
+        accessTokenManager = new AccessTokenManager();
+        accessTokenManager.init();
         taskController = new TaskController(4);
         moduleManager = new ModuleManager();
         moduleManager.loadModules();
@@ -114,22 +115,7 @@ public class Main {
     }
 
     public String getAccessToken() {
-        return access_token;
-    }
-
-    public void setupAccessToken() {
-        File file = new File("access_token.txt");
-        if (!file.exists()) {
-            needToRun = false;
-            throw new RuntimeException("ERROR! Access token not found!");
-        }
-        try {
-            Scanner scanner = new Scanner(file);
-            access_token = scanner.next();
-            scanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return accessTokenManager.get();
     }
 
     public boolean needToRun() {
