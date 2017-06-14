@@ -104,7 +104,6 @@ public class ModuleMonitor extends ModuleBase {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                subsribers.forEach(s -> Messages.send(s, "Monitor update completed"));
             }
         }).start();
     }
@@ -123,7 +122,8 @@ public class ModuleMonitor extends ModuleBase {
 
         switch (command[0]) {
             case "/monitorAdd":
-                checkAdmin(inputMessage.user_id);
+                if (!checkAdmin(inputMessage.user_id))
+                    return;
                 if (command.length != 2) {
                     Messages.send(inputMessage.from_id, "Invalid syntax");
                     return;
@@ -166,6 +166,8 @@ public class ModuleMonitor extends ModuleBase {
                 subsribers.removeIf(sub -> sub == inputMessage.from_id);
                 Messages.send(inputMessage.from_id, "Unsubscribed successfully");
                 break;
+            case "/monitorSubscribers":
+                checkAdmin(inputMessage.user_id);
         }
     }
 
