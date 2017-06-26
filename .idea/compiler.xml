@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="BotCore_main" target="1.8" />
       <module name="BotCore_test" target="1.8" />
+      <module name="ModuleCleaner_main" target="1.8" />
+      <module name="ModuleCleaner_test" target="1.8" />
       <module name="ModuleGreeter_main" target="1.8" />
       <module name="ModuleGreeter_test" target="1.8" />
       <module name="ModuleMain_main" target="1.8" />

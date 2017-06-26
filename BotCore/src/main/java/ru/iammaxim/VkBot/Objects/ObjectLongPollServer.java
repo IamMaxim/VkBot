@@ -20,6 +20,7 @@ public class ObjectLongPollServer {
             try {
                 server = new ObjectLongPollServer(JSON);
             } catch (JSONException e) {
+                System.err.println("Got: " + JSON);
                 e.printStackTrace();
             }
             if (server == null)

@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/run/modules</output-path>
     <root id="archive" name="ModuleCleaner.jar">
       <element id="module-output" name="ModuleCleaner_main" />
+      <element id="file-copy" path="$PROJECT_DIR$/ModuleCleaner/info.txt" />
     </root>
   </artifact>
 </component>

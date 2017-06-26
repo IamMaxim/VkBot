@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/BotCore/BotCore.iml" filepath="$PROJECT_DIR$/.idea/modules/BotCore/BotCore.iml" group="BotCore" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/BotCore/BotCore_main.iml" filepath="$PROJECT_DIR$/.idea/modules/BotCore/BotCore_main.iml" group="BotCore" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/BotCore/BotCore_test.iml" filepath="$PROJECT_DIR$/.idea/modules/BotCore/BotCore_test.iml" group="BotCore" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleCleaner.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleCleaner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleCleaner_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleCleaner_main.iml" group="ModuleCleaner" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleCleaner_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleCleaner_test.iml" group="ModuleCleaner" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter.iml" group="ModuleGreeter" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter_main.iml" group="ModuleGreeter" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter_test.iml" group="ModuleGreeter" />

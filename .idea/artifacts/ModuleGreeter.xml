@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="ModuleGreeter">
+  <artifact type="jar" build-on-make="true" name="ModuleGreeter">
     <output-path>$PROJECT_DIR$/run/modules</output-path>
     <root id="archive" name="ModuleGreeter.jar">
       <element id="module-output" name="ModuleGreeter_main" />

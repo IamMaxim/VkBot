@@ -38,7 +38,7 @@ public class ModuleMonitor extends ModuleBase {
         });
 
         try {
-            File f = new File(path, "subsribers.list");
+            File f = new File(path, "subscribers.list");
             if (!f.exists())
                 f.createNewFile();
 
