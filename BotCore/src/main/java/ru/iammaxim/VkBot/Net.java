@@ -31,8 +31,10 @@ public class Net {
                 object = object.getJSONObject("error");
                 int error_code = object.getInt("error_code");
 
-                //error_code == 6 is too many requests per second, wait 1 sec and repeat
-                if (error_code != 6) return "ERROR! CAN'T PERFORM REQUEST! " + sb.toString();
+                // error_code == 6 is too many requests per second
+                // error_code == 10 is internal Database problems
+                // wait 1 sec and repeat
+                if (error_code != 6 && error_code != 10) return sb.toString();
 
                 do {
                     try {
