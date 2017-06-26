@@ -37,8 +37,9 @@ public class LongPollThread extends Thread {
     }
 
     private void processLongPollMessage() {
+        String json = "Not yet got";
         try {
-            String json = Net.processRequest("https://" + currentLongPollServer.server + "?act=a_check&key=" + currentLongPollServer.key + "&ts=" + currentLongPollServer.ts + "&wait=50&mode=2");
+            json = Net.processRequest("https://" + currentLongPollServer.server + "?act=a_check&key=" + currentLongPollServer.key + "&ts=" + currentLongPollServer.ts + "&wait=50&mode=2");
             if (isInterrupted()) return;
             JSONObject o = new JSONObject(json);
             if (!o.isNull("failed")) {
@@ -69,6 +70,7 @@ public class LongPollThread extends Thread {
             });
             currentLongPollServer.update(ts);
         } catch (IOException | JSONException e) {
+            System.err.println("Response: " + json);
             e.printStackTrace();
             try {
                 Thread.sleep(1);
