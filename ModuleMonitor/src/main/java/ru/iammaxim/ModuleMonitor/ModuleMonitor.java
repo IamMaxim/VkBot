@@ -161,7 +161,7 @@ public class ModuleMonitor extends ModuleBase {
                 if (!checkAdmin(inputMessage.user_id))
                     return;
                 StringBuilder sb = new StringBuilder();
-                sb.append("I'm monitoring these users:");
+                sb.append("I'm monitoring these users:<br>");
                 usersData.forEach(data -> sb.append(data.id).append(" (").append(Users.get(data.id)).append(")<br>"));
                 Messages.send(inputMessage.from_id, sb.toString());
                 break;
@@ -222,10 +222,45 @@ public class ModuleMonitor extends ModuleBase {
                     Messages.send(inputMessage.from_id, "No such user found in monitor.");
                     return;
                 }
-                sb.append("All I know about history of " + id + " (" + Users.get(id) + "):");
+                sb.append("All I know about history of ").append(id).append(" (").append(Users.get(id)).append("):");
                 ud.history.forEach(change -> {
                     sb.append(sdf.format(change.date));
                     sb.append(change.event);
+                    sb.append("<br>");
+                });
+                Messages.send(inputMessage.from_id, sb.toString());
+                break;
+            }
+            case "/monitorListFriends": {
+                if (!checkAdmin(inputMessage.user_id))
+                    return;
+                if (command.length != 2) {
+                    Messages.send(inputMessage.from_id, "Invalid syntax");
+                    return;
+                }
+                int id;
+                try {
+                    id = Integer.parseInt(command[1]);
+                } catch (NumberFormatException e) {
+                    Messages.send(inputMessage.from_id, "invalid user_id");
+                    return;
+                }
+                StringBuilder sb = new StringBuilder();
+                UserData ud = null;
+                for (UserData data : usersData)
+                    if (data.id == id) {
+                        ud = data;
+                        break;
+                    }
+                if (ud == null) {
+                    Messages.send(inputMessage.from_id, "No such user found in monitor.");
+                    return;
+                }
+                sb.append("Here's what I know about friends of ").append(id).append(" (").append(Users.get(id)).append("):");
+                ud.friends.forEach(friend -> {
+                    sb.append(friend.id);
+                    sb.append(" ");
+                    sb.append(friend.toString());
                     sb.append("<br>");
                 });
                 Messages.send(inputMessage.from_id, sb.toString());
@@ -247,7 +282,8 @@ public class ModuleMonitor extends ModuleBase {
                 "/monitorSubscribe\n" +
                 "/monitorUnsubscribe\n" +
                 "/monitorSubscribers\n" +
-                "/monitorHistory <user_id>";
+                "/monitorHistory <user_id>\n" +
+                "/monitorListFriends <user_id>";
     }
 
     class UserData {
