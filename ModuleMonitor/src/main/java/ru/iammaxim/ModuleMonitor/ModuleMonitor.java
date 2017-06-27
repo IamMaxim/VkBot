@@ -11,6 +11,7 @@ import ru.iammaxim.VkBot.UserManager;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by maxim on 6/12/17.
@@ -121,7 +122,7 @@ public class ModuleMonitor extends ModuleBase {
         String[] command = inputMessage.body.split(" ");
 
         switch (command[0]) {
-            case "/monitorAdd":
+            case "/monitorAdd": {
                 if (!checkAdmin(inputMessage.user_id))
                     return;
                 if (command.length != 2) {
@@ -136,8 +137,10 @@ public class ModuleMonitor extends ModuleBase {
                     Messages.send(inputMessage.from_id, "Invalid user ID");
                 }
                 break;
-            case "/monitorRemove":
-                checkAdmin(inputMessage.user_id);
+            }
+            case "/monitorRemove": {
+                if (!checkAdmin(inputMessage.user_id))
+                    return;
                 if (command.length != 2) {
                     Messages.send(inputMessage.from_id, "Invalid syntax");
                     return;
@@ -150,24 +153,38 @@ public class ModuleMonitor extends ModuleBase {
                     Messages.send(inputMessage.from_id, "Invalid user ID");
                 }
                 break;
-            case "/monitorList":
-                checkAdmin(inputMessage.user_id);
+            }
+            case "/monitorList": {
+                if (!checkAdmin(inputMessage.user_id))
+                    return;
                 StringBuilder sb = new StringBuilder();
                 usersData.forEach(data -> sb.append(data.id).append(" (").append(Users.get(data.id)).append(")<br>"));
                 Messages.send(inputMessage.from_id, sb.toString());
                 break;
-            case "/monitorSubscribe":
-                checkAdmin(inputMessage.user_id);
+            }
+            case "/monitorSubscribe": {
+                if (!checkAdmin(inputMessage.user_id))
+                    return;
                 subsribers.add(inputMessage.from_id);
                 Messages.send(inputMessage.from_id, "Subscribed successfully");
                 break;
-            case "/monitorUnsubscribe":
-                checkAdmin(inputMessage.user_id);
+            }
+            case "/monitorUnsubscribe": {
+                if (!checkAdmin(inputMessage.user_id))
+                    return;
                 subsribers.removeIf(sub -> sub == inputMessage.from_id);
                 Messages.send(inputMessage.from_id, "Unsubscribed successfully");
                 break;
-            case "/monitorSubscribers":
-                checkAdmin(inputMessage.user_id);
+            }
+            case "/monitorSubscribers": {
+                if (!checkAdmin(inputMessage.user_id))
+                    return;
+                StringBuilder sb = new StringBuilder();
+                sb.append("Subscribers:<br>");
+                subsribers.forEach(sub -> sb.append(sub.toString()).append(" (").append(Users.get(sub)).append(")<br>"));
+                Messages.send(inputMessage.from_id, sb.toString());
+                break;
+            }
         }
     }
 
@@ -182,7 +199,8 @@ public class ModuleMonitor extends ModuleBase {
                 "/monitorRemove\n" +
                 "/monitorList\n" +
                 "/monitorSubscribe\n" +
-                "/monitorUnsubscribe";
+                "/monitorUnsubscribe\n" +
+                "/monitorSubscribers";
     }
 
     class UserData {
@@ -204,6 +222,18 @@ public class ModuleMonitor extends ModuleBase {
             for (int i = 0; i < count; i++) {
                 history.add(new Change(dis.readLong(), dis.readUTF()));
             }
+            int friendsCount = dis.readInt();
+            int[] friendIDs = new int[friendsCount];
+            for (int i = 0; i < friendsCount; i++) {
+                friendIDs[i] = dis.readInt();
+            }
+            ObjectUser[] friends1 = null;
+            while (friends1 == null) {
+                friends1 = Users.get(friendIDs);
+                if (friends1 == null)
+                    System.out.println("Couldn't load friends in ModuleMonitor. Retrying...");
+            }
+            friends.addAll(Arrays.asList(friends1));
         }
 
         public void saveTo(OutputStream os) throws IOException {
@@ -212,6 +242,10 @@ public class ModuleMonitor extends ModuleBase {
             for (Change change : history) {
                 dos.writeLong(change.date);
                 dos.writeUTF(change.event);
+            }
+            dos.writeInt(friends.size());
+            for (ObjectUser friend : friends) {
+                dos.writeInt(friend.id);
             }
         }
 
