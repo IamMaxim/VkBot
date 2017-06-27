@@ -257,12 +257,14 @@ public class ModuleMonitor extends ModuleBase {
                     return;
                 }
                 sb.append("Here's what I know about friends of ").append(id).append(" (").append(Users.get(id)).append("):<br>");
-                ud.friends.forEach(friend -> {
+/*                ud.friends.forEach(friend -> {
                     sb.append(friend.id);
                     sb.append(" ");
                     sb.append(friend.toString());
                     sb.append("<br>");
-                });
+                });*/
+                sb.append("Count of friends: ");
+                sb.append(ud.friends.size());
                 Messages.send(inputMessage.from_id, sb.toString());
                 break;
             }
