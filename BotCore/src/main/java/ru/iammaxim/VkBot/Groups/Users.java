@@ -54,8 +54,7 @@ public class Users {
         indices.forEach((index, id) -> sj.add(String.valueOf(id)));
         try {
             String json = Net.processRequest("users.get", true, "user_ids=" + sj);
-            JSONObject o = new JSONObject(json).getJSONObject("response");
-            JSONArray arr = o.getJSONArray("items");
+            JSONArray arr = new JSONObject(json).getJSONArray("response");
             arr.forEach((ob) -> {
                 JSONObject obj = (JSONObject) ob;
                 ObjectUser user = new ObjectUser(obj);
