@@ -189,6 +189,8 @@ public class ModuleMonitor extends ModuleBase {
                 break;
             }
             case "/monitorHistory": {
+                if (!checkAdmin(inputMessage.user_id))
+                    return;
                 if (command.length != 2) {
                     Messages.send(inputMessage.from_id, "Invalid syntax");
                     return;
