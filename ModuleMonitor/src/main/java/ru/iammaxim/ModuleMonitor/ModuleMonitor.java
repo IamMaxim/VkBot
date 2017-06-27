@@ -222,7 +222,7 @@ public class ModuleMonitor extends ModuleBase {
                     Messages.send(inputMessage.from_id, "No such user found in monitor.");
                     return;
                 }
-                sb.append("All I know about history of ").append(id).append(" (").append(Users.get(id)).append("):");
+                sb.append("All I know about history of ").append(id).append(" (").append(Users.get(id)).append("):<br>");
                 ud.history.forEach(change -> {
                     sb.append(sdf.format(change.date));
                     sb.append(change.event);
@@ -256,7 +256,7 @@ public class ModuleMonitor extends ModuleBase {
                     Messages.send(inputMessage.from_id, "No such user found in monitor.");
                     return;
                 }
-                sb.append("Here's what I know about friends of ").append(id).append(" (").append(Users.get(id)).append("):");
+                sb.append("Here's what I know about friends of ").append(id).append(" (").append(Users.get(id)).append("):<br>");
                 ud.friends.forEach(friend -> {
                     sb.append(friend.id);
                     sb.append(" ");
