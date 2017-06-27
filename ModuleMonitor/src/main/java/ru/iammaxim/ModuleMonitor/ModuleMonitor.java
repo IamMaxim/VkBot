@@ -161,6 +161,7 @@ public class ModuleMonitor extends ModuleBase {
                 if (!checkAdmin(inputMessage.user_id))
                     return;
                 StringBuilder sb = new StringBuilder();
+                sb.append("I'm monitoring these users:");
                 usersData.forEach(data -> sb.append(data.id).append(" (").append(Users.get(data.id)).append(")<br>"));
                 Messages.send(inputMessage.from_id, sb.toString());
                 break;
@@ -168,6 +169,10 @@ public class ModuleMonitor extends ModuleBase {
             case "/monitorSubscribe": {
                 if (!checkAdmin(inputMessage.user_id))
                     return;
+                if (isSubscriber(inputMessage.from_id)) {
+                    Messages.send(inputMessage.from_id, "You are already subscriber");
+                    return;
+                }
                 subsribers.add(inputMessage.from_id);
                 Messages.send(inputMessage.from_id, "Subscribed successfully");
                 break;
@@ -175,6 +180,10 @@ public class ModuleMonitor extends ModuleBase {
             case "/monitorUnsubscribe": {
                 if (!checkAdmin(inputMessage.user_id))
                     return;
+                if (!isSubscriber(inputMessage.from_id)) {
+                    Messages.send(inputMessage.from_id, "You are not a subscriber");
+                    return;
+                }
                 subsribers.removeIf(sub -> sub == inputMessage.from_id);
                 Messages.send(inputMessage.from_id, "Unsubscribed successfully");
                 break;
@@ -183,7 +192,7 @@ public class ModuleMonitor extends ModuleBase {
                 if (!checkAdmin(inputMessage.user_id))
                     return;
                 StringBuilder sb = new StringBuilder();
-                sb.append("Subscribers:<br>");
+                sb.append("I send updates to these subscribers:<br>");
                 subsribers.forEach(sub -> sb.append(sub.toString()).append(" (").append(Users.get(sub)).append(")<br>"));
                 Messages.send(inputMessage.from_id, sb.toString());
                 break;
@@ -213,6 +222,7 @@ public class ModuleMonitor extends ModuleBase {
                     Messages.send(inputMessage.from_id, "No such user found in monitor.");
                     return;
                 }
+                sb.append("All I know about history of " + id + " (" + Users.get(id) + "):");
                 ud.history.forEach(change -> {
                     sb.append(sdf.format(change.date));
                     sb.append(change.event);
@@ -231,12 +241,13 @@ public class ModuleMonitor extends ModuleBase {
 
     @Override
     public String getHelp() {
-        return "/monitorAdd\n" +
-                "/monitorRemove\n" +
+        return "/monitorAdd <user_id>\n" +
+                "/monitorRemove <user_id>\n" +
                 "/monitorList\n" +
                 "/monitorSubscribe\n" +
                 "/monitorUnsubscribe\n" +
-                "/monitorSubscribers";
+                "/monitorSubscribers\n" +
+                "/monitorHistory <user_id>";
     }
 
     class UserData {
@@ -338,5 +349,13 @@ public class ModuleMonitor extends ModuleBase {
             this.date = date;
             this.event = event;
         }
+    }
+
+    private boolean isSubscriber(int id) {
+        for (Integer subsriber : subsribers) {
+            if (id == subsriber)
+                return true;
+        }
+        return false;
     }
 }
