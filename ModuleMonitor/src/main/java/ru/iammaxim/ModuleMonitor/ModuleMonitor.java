@@ -63,7 +63,10 @@ public class ModuleMonitor extends ModuleBase {
     public void load(String path) {
         File f = new File(path);
         if (f.exists()) {
-            for (File file : f.listFiles()) {
+            File[] files = f.listFiles();
+            if (files == null)
+                return;
+            for (File file : files) {
                 if (file.getName().endsWith(".bin"))
                     try {
                         Integer id = Integer.valueOf(file.getName().replace(".bin", ""));
