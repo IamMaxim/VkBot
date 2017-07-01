@@ -1,10 +1,12 @@
 package ru.iammaxim.ModuleMonitor;
 
 import ru.iammaxim.VkBot.Groups.Friends;
+import ru.iammaxim.VkBot.Groups.Groups;
 import ru.iammaxim.VkBot.Groups.Messages;
 import ru.iammaxim.VkBot.Groups.Users;
 import ru.iammaxim.VkBot.Main;
 import ru.iammaxim.VkBot.ModuleBase.ModuleBase;
+import ru.iammaxim.VkBot.Objects.ObjectGroup;
 import ru.iammaxim.VkBot.Objects.ObjectMessage;
 import ru.iammaxim.VkBot.Objects.ObjectUser;
 import ru.iammaxim.VkBot.UserManager;
@@ -99,7 +101,7 @@ public class ModuleMonitor extends ModuleBase {
                     try {
                         d.update();
                         Thread.sleep(waitBetweenUpdates);
-                    } catch (InterruptedException | IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
@@ -292,7 +294,7 @@ public class ModuleMonitor extends ModuleBase {
         int id;
 
         ArrayList<ObjectUser> friends = new ArrayList<>();
-        ArrayList<Integer> groups = new ArrayList<>();
+        ArrayList<ObjectGroup> groups = new ArrayList<>();
 
         ArrayList<Change> history = new ArrayList<>();
 
@@ -307,6 +309,9 @@ public class ModuleMonitor extends ModuleBase {
             for (int i = 0; i < count; i++) {
                 history.add(new Change(dis.readLong(), dis.readUTF()));
             }
+            // check if friend list is available
+            if (dis.available() == 0)
+                return;
             int friendsCount = dis.readInt();
             int[] friendIDs = new int[friendsCount];
             for (int i = 0; i < friendsCount; i++) {
@@ -319,6 +324,23 @@ public class ModuleMonitor extends ModuleBase {
                     System.out.println("Couldn't load friends in ModuleMonitor. Retrying...");
             }
             friends.addAll(Arrays.asList(friends1));
+
+            // check if group list is available
+            if (dis.available() == 0)
+                return;
+
+            int groupList = dis.readInt();
+            int[] groupIDs = new int[groupList];
+            for (int i = 0; i < groupList; i++) {
+                groupIDs[i] = dis.readInt();
+            }
+            ObjectGroup[] groups1 = null;
+            while (groups1 == null) {
+                groups1 = Groups.getById(groupIDs);
+                if (groups1 == null)
+                    System.out.println("Couldn't load groups in ModuleMonitor. Retrying...");
+            }
+            groups.addAll(Arrays.asList(groups1));
         }
 
         public void saveTo(OutputStream os) throws IOException {
@@ -332,13 +354,24 @@ public class ModuleMonitor extends ModuleBase {
             for (ObjectUser friend : friends) {
                 dos.writeInt(friend.id);
             }
+            dos.writeInt(groups.size());
+            for (ObjectGroup group : groups) {
+                dos.writeInt(group.id);
+            }
         }
 
         public void update() throws IOException {
+            processFriends();
+            processGroups();
+        }
+
+        private void processFriends() throws IOException {
             if (friends.isEmpty()) {
                 friends = Friends.get(id);
             } else {
                 ArrayList<ObjectUser> newFriends = Friends.get(id);
+                if (newFriends == null)
+                    return;
 
                 // check for friend adds
                 for (int i = newFriends.size() - 1; i >= 0; i--) {
@@ -377,6 +410,52 @@ public class ModuleMonitor extends ModuleBase {
                 friends = newFriends;
             }
         }
+
+        private void processGroups() throws IOException {
+            if (groups.isEmpty()) {
+                groups = Groups.get(id);
+            } else {
+                ArrayList<ObjectGroup> newGroups = Groups.get(id);
+                if (newGroups == null)
+                    return;
+
+                // check for group adds
+                for (int i = newGroups.size() - 1; i >= 0; i--) {
+                    ObjectGroup group = newGroups.get(i);
+                    boolean found = false;
+                    for (ObjectGroup g : groups) {
+                        if (group.id == g.id) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        String msg = "User " + id + " (" + Users.get(id).toString() + ") added group " + group.id + " (" + group.toString() + ")";
+                        history.add(new Change(System.currentTimeMillis(), msg));
+                        subsribers.forEach(s -> Messages.send(s, msg));
+                    }
+                }
+
+                // check for group removes
+                for (int i = friends.size() - 1; i >= 0; i--) {
+                    ObjectGroup group = groups.get(i);
+                    boolean found = false;
+                    for (ObjectGroup g : newGroups) {
+                        if (group.id == g.id) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        String msg = "User " + id + " (" + Users.get(id).toString() + ") removed group " + group.id + " (" + group.toString() + ")";
+                        history.add(new Change(System.currentTimeMillis(), msg));
+                        subsribers.forEach(s -> Messages.send(s, msg));
+                    }
+                }
+
+                groups = newGroups;
+            }
+        }
     }
 
     class Change {
@@ -390,8 +469,8 @@ public class ModuleMonitor extends ModuleBase {
     }
 
     private boolean isSubscriber(int id) {
-        for (Integer subsriber : subsribers) {
-            if (id == subsriber)
+        for (Integer subscriber : subsribers) {
+            if (id == subscriber)
                 return true;
         }
         return false;
