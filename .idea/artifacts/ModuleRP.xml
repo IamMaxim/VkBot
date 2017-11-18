@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="ModuleRP">
-    <output-path>$PROJECT_DIR$/run/modules</output-path>
-    <root id="archive" name="ModuleRP.jar">
-      <element id="module-output" name="ModuleRP_main" />
-      <element id="file-copy" path="$PROJECT_DIR$/ModuleRP/info.txt" />
-    </root>
-  </artifact>
-</component>

@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../../ModuleGreeter">
       <excludeFolder url="file://$MODULE_DIR$/../../../ModuleGreeter/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../ModuleGreeter/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../ModuleGreeter/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

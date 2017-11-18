@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="ModuleNotifier">
-    <output-path>$PROJECT_DIR$/run/modules</output-path>
-    <root id="archive" name="ModuleNotifier.jar">
-      <element id="module-output" name="ModuleNotifier_main" />
-      <element id="file-copy" path="$PROJECT_DIR$/ModuleNotifier/info.txt" />
-    </root>
-  </artifact>
-</component>

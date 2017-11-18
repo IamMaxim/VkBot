@@ -20,10 +20,10 @@ import java.util.Arrays;
  * Created by maxim on 6/12/17.
  */
 public class ModuleMonitor extends ModuleBase {
-    private static final long minUpdatePeriod = 60000, waitBetweenUpdates = 1000;
+    private static final long minUpdatePeriod = 60000, periodBetweenUpdates = 1000;
 
     private ArrayList<UserData> usersData = new ArrayList<>();
-    private ArrayList<Integer> subsribers = new ArrayList<>();
+    private ArrayList<Integer> subscribers = new ArrayList<>();
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("'['HH:mm:ss dd.MM.yyyy'] '");
 
@@ -50,8 +50,8 @@ public class ModuleMonitor extends ModuleBase {
 
             try (FileOutputStream fos = new FileOutputStream(f);
                  DataOutputStream dos = new DataOutputStream(fos)) {
-                dos.writeInt(subsribers.size());
-                for (Integer subsriber : subsribers)
+                dos.writeInt(subscribers.size());
+                for (Integer subsriber : subscribers)
                     dos.writeInt(subsriber);
             }
         } catch (IOException e) {
@@ -88,7 +88,7 @@ public class ModuleMonitor extends ModuleBase {
                      DataInputStream dis = new DataInputStream(fis)) {
                     int count = dis.readInt();
                     for (int i = 0; i < count; i++) {
-                        subsribers.add(dis.readInt());
+                        subscribers.add(dis.readInt());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -103,7 +103,7 @@ public class ModuleMonitor extends ModuleBase {
                 usersData.forEach(d -> {
                     try {
                         d.update();
-                        Thread.sleep(waitBetweenUpdates);
+                        Thread.sleep(periodBetweenUpdates);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -178,7 +178,7 @@ public class ModuleMonitor extends ModuleBase {
                     Messages.send(inputMessage.from_id, "You are already subscriber");
                     return;
                 }
-                subsribers.add(inputMessage.from_id);
+                subscribers.add(inputMessage.from_id);
                 Messages.send(inputMessage.from_id, "Subscribed successfully");
                 break;
             }
@@ -189,7 +189,7 @@ public class ModuleMonitor extends ModuleBase {
                     Messages.send(inputMessage.from_id, "You are not a subscriber");
                     return;
                 }
-                subsribers.removeIf(sub -> sub == inputMessage.from_id);
+                subscribers.removeIf(sub -> sub == inputMessage.from_id);
                 Messages.send(inputMessage.from_id, "Unsubscribed successfully");
                 break;
             }
@@ -198,7 +198,7 @@ public class ModuleMonitor extends ModuleBase {
                     return;
                 StringBuilder sb = new StringBuilder();
                 sb.append("I send updates to these subscribers:<br>");
-                subsribers.forEach(sub -> sb.append(sub.toString()).append(" (").append(Users.get(sub)).append(")<br>"));
+                subscribers.forEach(sub -> sb.append(sub.toString()).append(" (").append(Users.get(sub)).append(")<br>"));
                 Messages.send(inputMessage.from_id, sb.toString());
                 break;
             }
@@ -298,15 +298,16 @@ public class ModuleMonitor extends ModuleBase {
 
         ArrayList<ObjectUser> friends = new ArrayList<>();
         ArrayList<ObjectGroup> groups = new ArrayList<>();
+        boolean online = false;
 
         ArrayList<Change> history = new ArrayList<>();
 
 
-        public UserData(int id) {
+        UserData(int id) {
             this.id = id;
         }
 
-        public void loadFrom(InputStream is) throws IOException {
+        void loadFrom(InputStream is) throws IOException {
             DataInputStream dis = new DataInputStream(is);
             int count = dis.readInt();
             for (int i = 0; i < count; i++) {
@@ -346,7 +347,7 @@ public class ModuleMonitor extends ModuleBase {
             groups.addAll(Arrays.asList(groups1));
         }
 
-        public void saveTo(OutputStream os) throws IOException {
+        void saveTo(OutputStream os) throws IOException {
             DataOutputStream dos = new DataOutputStream(os);
             dos.writeInt(history.size());
             for (Change change : history) {
@@ -363,9 +364,10 @@ public class ModuleMonitor extends ModuleBase {
             }
         }
 
-        public void update() throws IOException {
+        void update() throws IOException {
             processFriends();
             processGroups();
+            processOnline();
         }
 
         private void processFriends() throws IOException {
@@ -387,9 +389,9 @@ public class ModuleMonitor extends ModuleBase {
                         }
                     }
                     if (!found) {
-                        String msg = "User " + id + " (" + Users.get(id).toString() + ") added " + user.id + " (" + user.toString() + ") to friends";
-                        history.add(new Change(System.currentTimeMillis(), msg));
-                        subsribers.forEach(s -> Messages.send(s, msg));
+                        String msg = "User " + id + " (" + Users.get(id).getName() + ") added " + user.id + " (" + user.toString() + ") to friends";
+                        history.add(new Change(msg));
+                        subscribers.forEach(s -> Messages.send(s, msg));
                     }
                 }
 
@@ -404,13 +406,28 @@ public class ModuleMonitor extends ModuleBase {
                         }
                     }
                     if (!found) {
-                        String msg = "User " + id + " (" + Users.get(id).toString() + ") removed " + user.id + " (" + user.toString() + ") from friends";
-                        history.add(new Change(System.currentTimeMillis(), msg));
-                        subsribers.forEach(s -> Messages.send(s, msg));
+                        String msg = "User " + id + " (" + Users.get(id).getName() + ") removed " + user.id + " (" + user.toString() + ") from friends";
+                        history.add(new Change(msg));
+                        subscribers.forEach(s -> Messages.send(s, msg));
                     }
                 }
 
                 friends = newFriends;
+            }
+        }
+
+        private void processOnline() throws IOException {
+            ObjectUser user = Users.get(id, "fields=online");
+            if (user.online != online) {
+                String msg;
+                if (user.online)
+                    msg = "User " + user.getName() + " (" + user.id + ") came online (" + user.getPlatform() + ")";
+                else
+                    msg = "User " + user.getName() + " (" + user.id + ") came offline";
+
+                history.add(new Change(msg));
+
+                user.online = online;
             }
         }
 
@@ -433,9 +450,9 @@ public class ModuleMonitor extends ModuleBase {
                         }
                     }
                     if (!found) {
-                        String msg = "User " + id + " (" + Users.get(id).toString() + ") added group " + group.id + " (" + group.toString() + ")";
-                        history.add(new Change(System.currentTimeMillis(), msg));
-                        subsribers.forEach(s -> Messages.send(s, msg));
+                        String msg = "User " + id + " (" + Users.get(id).getName() + ") added group " + group.id + " (" + group.toString() + ")";
+                        history.add(new Change(msg));
+                        subscribers.forEach(s -> Messages.send(s, msg));
                     }
                 }
 
@@ -450,9 +467,9 @@ public class ModuleMonitor extends ModuleBase {
                         }
                     }
                     if (!found) {
-                        String msg = "User " + id + " (" + Users.get(id).toString() + ") removed group " + group.id + " (" + group.toString() + ")";
-                        history.add(new Change(System.currentTimeMillis(), msg));
-                        subsribers.forEach(s -> Messages.send(s, msg));
+                        String msg = "User " + id + " (" + Users.get(id).getName() + ") removed group " + group.id + " (" + group.toString() + ")";
+                        history.add(new Change(msg));
+                        subscribers.forEach(s -> Messages.send(s, msg));
                     }
                 }
 
@@ -465,6 +482,11 @@ public class ModuleMonitor extends ModuleBase {
         long date;
         String event;
 
+        Change(String event) {
+            this.date = System.currentTimeMillis();
+            this.event = event;
+        }
+
         Change(long date, String event) {
             this.date = date;
             this.event = event;
@@ -472,7 +494,7 @@ public class ModuleMonitor extends ModuleBase {
     }
 
     private boolean isSubscriber(int id) {
-        for (Integer subscriber : subsribers) {
+        for (Integer subscriber : subscribers) {
             if (id == subscriber)
                 return true;
         }

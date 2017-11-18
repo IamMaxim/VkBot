@@ -5,24 +5,27 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/BotCore/BotCore.iml" filepath="$PROJECT_DIR$/.idea/modules/BotCore/BotCore.iml" group="BotCore" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/BotCore/BotCore_main.iml" filepath="$PROJECT_DIR$/.idea/modules/BotCore/BotCore_main.iml" group="BotCore" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/BotCore/BotCore_test.iml" filepath="$PROJECT_DIR$/.idea/modules/BotCore/BotCore_test.iml" group="BotCore" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleCleaner.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleCleaner.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleCleaner_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleCleaner_main.iml" group="ModuleCleaner" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleCleaner_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleCleaner_test.iml" group="ModuleCleaner" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleChatAdmin/ModuleChatAdmin.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleChatAdmin/ModuleChatAdmin.iml" group="ModuleChatAdmin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleChatAdmin/ModuleChatAdmin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleChatAdmin/ModuleChatAdmin_main.iml" group="ModuleChatAdmin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleChatAdmin/ModuleChatAdmin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleChatAdmin/ModuleChatAdmin_test.iml" group="ModuleChatAdmin" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter.iml" group="ModuleGreeter" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter_main.iml" group="ModuleGreeter" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleGreeter/ModuleGreeter_test.iml" group="ModuleGreeter" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain.iml" group="ModuleMain" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain_main.iml" group="ModuleMain" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMain/ModuleMain_test.iml" group="ModuleMain" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMonitor.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMonitor.iml" group="ModuleMonitor" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor.iml" group="ModuleMonitor" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor_main.iml" group="ModuleMonitor" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleMonitor/ModuleMonitor_test.iml" group="ModuleMonitor" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNotifier.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNotifier.iml" group="ModuleNotifier" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier.iml" group="ModuleNotifier" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier_main.iml" group="ModuleNotifier" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleNotifier/ModuleNotifier_test.iml" group="ModuleNotifier" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleRP/ModuleRP.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleRP/ModuleRP.iml" group="ModuleRP" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleRP/ModuleRP_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleRP/ModuleRP_main.iml" group="ModuleRP" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleRP/ModuleRP_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleRP/ModuleRP_test.iml" group="ModuleRP" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleTalker/ModuleTalker.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleTalker/ModuleTalker.iml" group="ModuleTalker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleTalker/ModuleTalker_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleTalker/ModuleTalker_main.iml" group="ModuleTalker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ModuleTalker/ModuleTalker_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ModuleTalker/ModuleTalker_test.iml" group="ModuleTalker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot_main.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot_main.iml" group="VkBot" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VkBot_test.iml" filepath="$PROJECT_DIR$/.idea/modules/VkBot_test.iml" group="VkBot" />

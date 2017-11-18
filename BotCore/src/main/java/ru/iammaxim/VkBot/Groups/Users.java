@@ -7,6 +7,7 @@ import ru.iammaxim.VkBot.Objects.ObjectUser;
 import ru.iammaxim.VkBot.UserDB;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringJoiner;
 
@@ -23,11 +24,15 @@ public class Users {
         return null;
     }
 
-    public static ObjectUser get(int id) {
+    public static ObjectUser get(int id, String... args) {
         ObjectUser user = UserDB.get(id);
         if (user == null) {
             try {
-                String json = Net.processRequest("users.get", true, "user_ids=" + id);
+                ArrayList<String> KaV = new ArrayList<>();
+                KaV.add("user_ids=" + id);
+                if (args.length > 0)
+                    KaV.add(String.join(",", args));
+                String json = Net.processRequest("users.get", true, KaV.toArray(new String[0]));
                 user = new ObjectUser(json);
                 UserDB.add(user);
             } catch (IOException e) {

@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../../BotCore">
       <excludeFolder url="file://$MODULE_DIR$/../../../BotCore/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../BotCore/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../BotCore/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

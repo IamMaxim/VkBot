@@ -4,4 +4,6 @@ include 'ModuleGreeter'
 include 'ModuleRP'
 include 'ModuleNotifier'
 include 'ModuleMonitor'
+include 'ModuleChatAdmin'
+include 'ModuleTalker'
 
