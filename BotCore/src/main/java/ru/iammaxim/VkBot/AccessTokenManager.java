@@ -16,6 +16,7 @@ public class AccessTokenManager {
         ArrayList<String> list = new ArrayList<>();
         File file = new File("access_token.txt");
         if (!file.exists()) {
+            System.out.println("ERROR! Access token not found! Please, create file access_token.txt");
             throw new RuntimeException("ERROR! Access token not found!");
         }
         try (Scanner scanner = new Scanner(file)) {
