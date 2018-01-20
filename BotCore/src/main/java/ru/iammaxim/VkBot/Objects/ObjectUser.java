@@ -25,7 +25,8 @@ public class ObjectUser {
         first_name = o.getString("first_name");
         last_name = o.getString("last_name");
         if (o.has("online"))
-            online = o.getBoolean("online");
+//            online = o.getBoolean("online");
+            online = o.getInt("online") == 1;
         if (o.has("last_seen")) {
             last_seen = o.getJSONObject("last_seen").getLong("time");
             last_seen_platform = o.getJSONObject("last_seen").getInt("platform");

@@ -20,42 +20,44 @@ import java.util.Arrays;
  * Created by maxim on 6/12/17.
  */
 public class ModuleMonitor extends ModuleBase {
-    private static final long minUpdatePeriod = 60000, periodBetweenUpdates = 1000;
+    private static final long minUpdatePeriod = 10000, periodBetweenUpdates = 1000;
 
-    private ArrayList<UserData> usersData = new ArrayList<>();
+    private final ArrayList<UserData> usersData = new ArrayList<>();
     private ArrayList<Integer> subscribers = new ArrayList<>();
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("'['HH:mm:ss dd.MM.yyyy'] '");
 
     @Override
     public void save(String path) {
-        usersData.forEach(d -> {
+        synchronized (usersData) {
+            usersData.forEach(d -> {
+                try {
+                    File f = new File(path, d.id + ".bin");
+                    if (!f.exists())
+                        f.createNewFile();
+
+                    try (FileOutputStream fos = new FileOutputStream(f)) {
+                        d.saveTo(fos);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
             try {
-                File f = new File(path, d.id + ".bin");
+                File f = new File(path, "subscribers.list");
                 if (!f.exists())
                     f.createNewFile();
 
-                try (FileOutputStream fos = new FileOutputStream(f)) {
-                    d.saveTo(fos);
+                try (FileOutputStream fos = new FileOutputStream(f);
+                     DataOutputStream dos = new DataOutputStream(fos)) {
+                    dos.writeInt(subscribers.size());
+                    for (Integer subscriber : subscribers)
+                        dos.writeInt(subscriber);
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
-
-        try {
-            File f = new File(path, "subscribers.list");
-            if (!f.exists())
-                f.createNewFile();
-
-            try (FileOutputStream fos = new FileOutputStream(f);
-                 DataOutputStream dos = new DataOutputStream(fos)) {
-                dos.writeInt(subscribers.size());
-                for (Integer subsriber : subscribers)
-                    dos.writeInt(subsriber);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -100,6 +102,8 @@ public class ModuleMonitor extends ModuleBase {
         new Thread(() -> {
             while (Main.instance.needToRun()) {
                 long startTime = System.currentTimeMillis();
+                // workaround not to stop other threads because of synchronization
+                ArrayList<UserData> usersData = new ArrayList<>(this.usersData);
                 usersData.forEach(d -> {
                     try {
                         d.update();
@@ -114,7 +118,7 @@ public class ModuleMonitor extends ModuleBase {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }, "ModuleMonitorThread").start();
     }
 
     private boolean checkAdmin(int id) {
@@ -126,139 +130,147 @@ public class ModuleMonitor extends ModuleBase {
     }
 
     @Override
-    public void process(ObjectMessage inputMessage) {
-        String[] command = inputMessage.body.split(" ");
+    public void process(ObjectMessage im) {
+        String[] command = im.body.split(" ");
 
         switch (command[0]) {
             case "/monitorAdd": {
-                if (!checkAdmin(inputMessage.user_id))
+                if (!checkAdmin(im.user_id))
                     return;
                 if (command.length != 2) {
-                    Messages.send(inputMessage.from_id, "Invalid syntax");
+                    Messages.send(im.from_id, "Invalid syntax");
                     return;
                 }
                 try {
                     int id = Integer.parseInt(command[1]);
                     usersData.add(new UserData(id));
-                    Messages.send(inputMessage.from_id, "User " + id + " (" + Users.get(id) + ") added to monitor");
+                    Messages.send(im.from_id, "User " + id + " (" + Users.get(id) + ") added to monitor");
                 } catch (NumberFormatException e) {
-                    Messages.send(inputMessage.from_id, "Invalid user ID");
+                    Messages.send(im.from_id, "Invalid user ID");
                 }
                 break;
             }
             case "/monitorRemove": {
-                if (!checkAdmin(inputMessage.user_id))
+                if (!checkAdmin(im.user_id))
                     return;
                 if (command.length != 2) {
-                    Messages.send(inputMessage.from_id, "Invalid syntax");
+                    Messages.send(im.from_id, "Invalid syntax");
                     return;
                 }
                 try {
                     int id = Integer.parseInt(command[1]);
                     usersData.removeIf(data -> data.id == id);
-                    Messages.send(inputMessage.from_id, "User " + id + " (" + Users.get(id) + ") removed from monitor");
+                    Messages.send(im.from_id, "User " + id + " (" + Users.get(id) + ") removed from monitor");
                 } catch (NumberFormatException e) {
-                    Messages.send(inputMessage.from_id, "Invalid user ID");
+                    Messages.send(im.from_id, "Invalid user ID");
                 }
                 break;
             }
             case "/monitorList": {
-                if (!checkAdmin(inputMessage.user_id))
+                if (!checkAdmin(im.user_id))
                     return;
                 StringBuilder sb = new StringBuilder();
                 sb.append("I'm monitoring these users:<br>");
-                usersData.forEach(data -> sb.append(data.id).append(" (").append(Users.get(data.id)).append(")<br>"));
-                Messages.send(inputMessage.from_id, sb.toString());
+                synchronized (usersData) {
+                    usersData.forEach(data -> sb.append(data.id).append(" (").append(Users.get(data.id)).append(")<br>"));
+                }
+                Messages.send(im.from_id, sb.toString());
                 break;
             }
             case "/monitorSubscribe": {
-                if (!checkAdmin(inputMessage.user_id))
+                if (!checkAdmin(im.user_id))
                     return;
-                if (isSubscriber(inputMessage.from_id)) {
-                    Messages.send(inputMessage.from_id, "You are already subscriber");
+                if (isSubscriber(im.from_id)) {
+                    Messages.send(im.from_id, "You are already subscriber");
                     return;
                 }
-                subscribers.add(inputMessage.from_id);
-                Messages.send(inputMessage.from_id, "Subscribed successfully");
+                subscribers.add(im.from_id);
+                Messages.send(im.from_id, "Subscribed successfully");
                 break;
             }
             case "/monitorUnsubscribe": {
-                if (!checkAdmin(inputMessage.user_id))
+                if (!checkAdmin(im.user_id))
                     return;
-                if (!isSubscriber(inputMessage.from_id)) {
-                    Messages.send(inputMessage.from_id, "You are not a subscriber");
+                if (!isSubscriber(im.from_id)) {
+                    Messages.send(im.from_id, "You are not a subscriber");
                     return;
                 }
-                subscribers.removeIf(sub -> sub == inputMessage.from_id);
-                Messages.send(inputMessage.from_id, "Unsubscribed successfully");
+                subscribers.removeIf(sub -> sub == im.from_id);
+                Messages.send(im.from_id, "Unsubscribed successfully");
                 break;
             }
             case "/monitorSubscribers": {
-                if (!checkAdmin(inputMessage.user_id))
+                if (!checkAdmin(im.user_id))
                     return;
                 StringBuilder sb = new StringBuilder();
                 sb.append("I send updates to these subscribers:<br>");
                 subscribers.forEach(sub -> sb.append(sub.toString()).append(" (").append(Users.get(sub)).append(")<br>"));
-                Messages.send(inputMessage.from_id, sb.toString());
+                Messages.send(im.from_id, sb.toString());
                 break;
             }
             case "/monitorHistory": {
-                if (!checkAdmin(inputMessage.user_id))
+                if (!checkAdmin(im.user_id))
                     return;
                 if (command.length != 2) {
-                    Messages.send(inputMessage.from_id, "Invalid syntax");
+                    Messages.send(im.from_id, "Invalid syntax");
                     return;
                 }
                 int id;
                 try {
                     id = Integer.parseInt(command[1]);
                 } catch (NumberFormatException e) {
-                    Messages.send(inputMessage.from_id, "invalid user_id");
+                    Messages.send(im.from_id, "invalid user_id");
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
                 UserData ud = null;
-                for (UserData data : usersData)
-                    if (data.id == id) {
-                        ud = data;
-                        break;
-                    }
+                synchronized (usersData) {
+                    for (UserData data : usersData)
+                        if (data.id == id) {
+                            ud = data;
+                            break;
+                        }
+                }
                 if (ud == null) {
-                    Messages.send(inputMessage.from_id, "No such user found in monitor.");
+                    Messages.send(im.from_id, "No such user found in monitor.");
                     return;
                 }
                 sb.append("All I know about history of ").append(id).append(" (").append(Users.get(id)).append("):<br>");
                 ud.history.forEach(change -> {
                     sb.append(sdf.format(change.date));
-                    sb.append(change.event);
+                    sb.append(change.type);
+                    sb.append(" ");
+                    sb.append(change.data);
                     sb.append("<br>");
                 });
-                Messages.send(inputMessage.from_id, sb.toString());
+                Messages.send(im.from_id, sb.toString());
                 break;
             }
             case "/monitorListFriends": {
-                if (!checkAdmin(inputMessage.user_id))
+                if (!checkAdmin(im.user_id))
                     return;
                 if (command.length != 2) {
-                    Messages.send(inputMessage.from_id, "Invalid syntax");
+                    Messages.send(im.from_id, "Invalid syntax");
                     return;
                 }
                 int id;
                 try {
                     id = Integer.parseInt(command[1]);
                 } catch (NumberFormatException e) {
-                    Messages.send(inputMessage.from_id, "invalid user_id");
+                    Messages.send(im.from_id, "invalid user_id");
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
                 UserData ud = null;
-                for (UserData data : usersData)
-                    if (data.id == id) {
-                        ud = data;
-                        break;
-                    }
+                synchronized (usersData) {
+                    for (UserData data : usersData)
+                        if (data.id == id) {
+                            ud = data;
+                            break;
+                        }
+                }
                 if (ud == null) {
-                    Messages.send(inputMessage.from_id, "No such user found in monitor.");
+                    Messages.send(im.from_id, "No such user found in monitor.");
                     return;
                 }
                 sb.append("Here's what I know about friends of ").append(id).append(" (").append(Users.get(id)).append("):<br>");
@@ -270,7 +282,7 @@ public class ModuleMonitor extends ModuleBase {
                 });*/
                 sb.append("Count of friends: ");
                 sb.append(ud.friends.size());
-                Messages.send(inputMessage.from_id, sb.toString());
+                Messages.send(im.from_id, sb.toString());
                 break;
             }
         }
@@ -299,6 +311,7 @@ public class ModuleMonitor extends ModuleBase {
         ArrayList<ObjectUser> friends = new ArrayList<>();
         ArrayList<ObjectGroup> groups = new ArrayList<>();
         boolean online = false;
+        long last_seen = -1;
 
         ArrayList<Change> history = new ArrayList<>();
 
@@ -311,31 +324,33 @@ public class ModuleMonitor extends ModuleBase {
             DataInputStream dis = new DataInputStream(is);
             int count = dis.readInt();
             for (int i = 0; i < count; i++) {
-                history.add(new Change(dis.readLong(), dis.readUTF()));
+                history.add(new Change(dis.readLong(), Change.Type.values()[dis.readInt()], dis.readInt()));
             }
             // check if friend list is available
             if (dis.available() == 0)
                 return;
             int friendsCount = dis.readInt();
-            int[] friendIDs = new int[friendsCount];
-            for (int i = 0; i < friendsCount; i++) {
-                friendIDs[i] = dis.readInt();
+            if (friendsCount > 0) {
+                int[] friendIDs = new int[friendsCount];
+                for (int i = 0; i < friendsCount; i++) {
+                    friendIDs[i] = dis.readInt();
+                }
+                ObjectUser[] friends1 = null;
+                while (friends1 == null) {
+                    friends1 = Users.get(friendIDs);
+                    if (friends1 == null)
+                        System.out.println("Couldn't load friends in ModuleMonitor. Retrying...");
+                }
+                friends.addAll(Arrays.asList(friends1));
             }
-            ObjectUser[] friends1 = null;
-            while (friends1 == null) {
-                friends1 = Users.get(friendIDs);
-                if (friends1 == null)
-                    System.out.println("Couldn't load friends in ModuleMonitor. Retrying...");
-            }
-            friends.addAll(Arrays.asList(friends1));
 
             // check if group list is available
             if (dis.available() == 0)
                 return;
 
-            int groupList = dis.readInt();
-            int[] groupIDs = new int[groupList];
-            for (int i = 0; i < groupList; i++) {
+            int groupsCount = dis.readInt();
+            int[] groupIDs = new int[groupsCount];
+            for (int i = 0; i < groupsCount; i++) {
                 groupIDs[i] = dis.readInt();
             }
             ObjectGroup[] groups1 = null;
@@ -352,7 +367,8 @@ public class ModuleMonitor extends ModuleBase {
             dos.writeInt(history.size());
             for (Change change : history) {
                 dos.writeLong(change.date);
-                dos.writeUTF(change.event);
+                dos.writeInt(change.type.ordinal());
+                dos.writeInt(change.data);
             }
             dos.writeInt(friends.size());
             for (ObjectUser friend : friends) {
@@ -389,8 +405,8 @@ public class ModuleMonitor extends ModuleBase {
                         }
                     }
                     if (!found) {
+                        history.add(new Change(Change.Type.ADDED_FRIEND, user.id));
                         String msg = "User " + id + " (" + Users.get(id).getName() + ") added " + user.id + " (" + user.toString() + ") to friends";
-                        history.add(new Change(msg));
                         subscribers.forEach(s -> Messages.send(s, msg));
                     }
                 }
@@ -406,8 +422,8 @@ public class ModuleMonitor extends ModuleBase {
                         }
                     }
                     if (!found) {
-                        String msg = "User " + id + " (" + Users.get(id).getName() + ") removed " + user.id + " (" + user.toString() + ") from friends";
-                        history.add(new Change(msg));
+                        history.add(new Change(Change.Type.REMOVED_FRIEND, user.id));
+                        String msg = "User " + id + " (" + Users.get(id).getName() + ") removed friend " + user.id + " (" + user.toString() + ") from friends";
                         subscribers.forEach(s -> Messages.send(s, msg));
                     }
                 }
@@ -416,18 +432,21 @@ public class ModuleMonitor extends ModuleBase {
             }
         }
 
-        private void processOnline() throws IOException {
-            ObjectUser user = Users.get(id, "fields=online");
-            if (user.online != online) {
+        private void processOnline() {
+            ObjectUser user = Users.get(id, "fields=online,last_seen");
+            if (user.online != online || user.last_seen != last_seen) {
+                if (last_seen == -1)
+                    last_seen = user.last_seen;
+
                 String msg;
-                if (user.online)
-                    msg = "User " + user.getName() + " (" + user.id + ") came online (" + user.getPlatform() + ")";
+                if (user.online || user.last_seen != last_seen)
+                    history.add(new Change(Change.Type.CAME_ONLINE, user.last_seen_platform));
+//                    msg = "User " + user.getName() + " (" + user.id + ") came online (" + user.getPlatform() + ")";
                 else
-                    msg = "User " + user.getName() + " (" + user.id + ") came offline";
+                    history.add(new Change(Change.Type.CAME_OFFLINE, user.last_seen_platform));
+//                    msg = "User " + user.getName() + " (" + user.id + ") came offline";
 
-                history.add(new Change(msg));
-
-                user.online = online;
+                online = user.online;
             }
         }
 
@@ -450,14 +469,14 @@ public class ModuleMonitor extends ModuleBase {
                         }
                     }
                     if (!found) {
+                        history.add(new Change(Change.Type.ADDED_GROUP, group.id));
                         String msg = "User " + id + " (" + Users.get(id).getName() + ") added group " + group.id + " (" + group.toString() + ")";
-                        history.add(new Change(msg));
                         subscribers.forEach(s -> Messages.send(s, msg));
                     }
                 }
 
                 // check for group removes
-                for (int i = friends.size() - 1; i >= 0; i--) {
+                for (int i = groups.size() - 1; i >= 0; i--) {
                     ObjectGroup group = groups.get(i);
                     boolean found = false;
                     for (ObjectGroup g : newGroups) {
@@ -467,8 +486,8 @@ public class ModuleMonitor extends ModuleBase {
                         }
                     }
                     if (!found) {
+                        history.add(new Change(Change.Type.REMOVED_GROUP, group.id));
                         String msg = "User " + id + " (" + Users.get(id).getName() + ") removed group " + group.id + " (" + group.toString() + ")";
-                        history.add(new Change(msg));
                         subscribers.forEach(s -> Messages.send(s, msg));
                     }
                 }
@@ -478,18 +497,28 @@ public class ModuleMonitor extends ModuleBase {
         }
     }
 
-    class Change {
+    static class Change {
         long date;
-        String event;
+        Type type;
+        int data;
 
-        Change(String event) {
-            this.date = System.currentTimeMillis();
-            this.event = event;
+        Change(Type type, int data) {
+            this(System.currentTimeMillis(), type, data);
         }
 
-        Change(long date, String event) {
+        Change(long date, Type type, int data) {
+            this.type = type;
+            this.data = data;
             this.date = date;
-            this.event = event;
+        }
+
+        enum Type {
+            CAME_ONLINE,
+            CAME_OFFLINE,
+            ADDED_FRIEND,
+            REMOVED_FRIEND,
+            ADDED_GROUP,
+            REMOVED_GROUP
         }
     }
 

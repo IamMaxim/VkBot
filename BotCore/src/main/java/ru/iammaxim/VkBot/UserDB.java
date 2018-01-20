@@ -120,7 +120,7 @@ public class UserDB {
                 user.first_name = first_name;
                 user.last_name = last_name;
                 userDB.put(id, user);
-                System.out.println("loaded user " + first_name + " " + last_name);
+//                System.out.println("loaded user " + first_name + " " + last_name);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,7 +136,7 @@ public class UserDB {
     }
 
     public static void add(ObjectUser user) {
-        System.out.println("added user " + user.first_name + " " + user.last_name);
+//        System.out.println("added user " + user.first_name + " " + user.last_name);
         userDB.put(user.id, user);
     }
 

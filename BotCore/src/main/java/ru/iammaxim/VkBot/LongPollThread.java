@@ -44,6 +44,13 @@ public class LongPollThread extends Thread {
             JSONObject o = new JSONObject(json);
             if (!o.isNull("failed")) {
                 int code = o.getInt("failed");
+
+                if (code == 1) {
+                    System.out.println("Detected data loss!");
+                    currentLongPollServer.ts = o.getLong("ts");
+                    return;
+                }
+
                 if (code == 2 || code == 3) {
                     System.out.println("Detected expired long poll token.");
                     currentLongPollServer = null;

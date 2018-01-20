@@ -25,6 +25,7 @@ public class Groups {
                 JSONObject o = (JSONObject) ob;
                 groups.add(new ObjectGroup(o));
             });
+            loaded += object.getJSONArray("items").length();
         }
         return groups;
     }

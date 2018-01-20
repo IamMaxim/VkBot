@@ -54,7 +54,7 @@ public class Net {
                         }
                         return processRequest(url);
                     }
-                    System.out.println(sb.toString());
+//                    System.out.println(sb.toString());
                 } while (sb.toString().contains("error_code"));
             }
         } catch (MalformedURLException e) {

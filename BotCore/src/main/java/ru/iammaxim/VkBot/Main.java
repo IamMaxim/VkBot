@@ -27,8 +27,12 @@ public class Main {
 
     public static void main(String[] args) {
         Thread.currentThread().setName("MainThread");
-        instance = new Main();
-        instance.run();
+        try {
+            instance = new Main();
+            instance.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String getRandomHex() {

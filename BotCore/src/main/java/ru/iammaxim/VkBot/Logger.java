@@ -13,9 +13,11 @@ public class Logger extends PrintStream {
     private SimpleDateFormat format = new SimpleDateFormat("'['HH:mm:ss dd.MM.yyyy'] '");
     private boolean writeLastLog = false;
     private FileOutputStream fos;
+    private OutputStream parentStream;
 
     public Logger(OutputStream out, String filename) {
         this(out);
+        this.parentStream = out;
         try {
             File f = Utils.getFile(filename);
             fos = new FileOutputStream(f, true);
@@ -79,6 +81,8 @@ public class Logger extends PrintStream {
     @Override
     public void println(String x) {
         String s = getString(x);
+        if (parentStream instanceof PrintStream)
+            ((PrintStream) parentStream).println(s);
         if (writeLastLog)
             lastLog.add(s);
         if (fos != null)
